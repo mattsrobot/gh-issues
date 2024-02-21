@@ -1,4 +1,4 @@
-import "./styles.Text.css";
+import "./styles.text.css";
 
 type TextProps = {
     className?: string;
