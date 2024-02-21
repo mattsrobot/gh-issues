@@ -2,6 +2,7 @@
     color: var(--rw-color-text);
     font-weight: var(--rw-font-weight-regular);
     font-size: var(--rw-font-size-1);
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Sizes */
