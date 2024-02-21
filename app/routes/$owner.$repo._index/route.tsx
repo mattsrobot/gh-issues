@@ -44,8 +44,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
         });
 
     } catch (error) {
-        console.log(error);
-
         let status, message;
 
         if (error instanceof RequestError) {
