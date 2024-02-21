@@ -15,7 +15,7 @@ const defaultProps = {
 
 function Flex(props: FlexProps) {
     const { direction, className, gap, children } = props;
-    const styles = `rw-reset rw-flex rw-flex-${direction} rw-flex-gap-${gap} ${className}`;
+    const styles = `rw-flex rw-flex-${direction} rw-flex-gap-${gap} ${className}`;
     return (
         <div className={styles}>
             {children}

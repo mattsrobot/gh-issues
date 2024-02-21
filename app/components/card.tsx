@@ -15,7 +15,7 @@ const defaultProps = {
 
 function Card(props: CardProps) {
     const { children, size, variant, className } = props;
-    const styles = `rw-reset rw-card rw-size-${size} rw-card-${variant} ${className}`;
+    const styles = `rw-card rw-size-${size} rw-card-${variant} ${className}`;
     return (
         <section className={styles}>
             {children}

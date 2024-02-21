@@ -17,7 +17,7 @@ const defaultProps = {
 
 function Text(props: TextProps) {
     const { className, children, weight, size, color } = props;
-    const styles = `rw-reset rw-text rw-text-weight-${weight} rw-text-color-${color} rw-size-${size} ${className}`;
+    const styles = `rw-text rw-text-weight-${weight} rw-text-color-${color} rw-size-${size} ${className}`;
     return (
         <span className={styles}>
             {children}
