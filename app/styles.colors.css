@@ -1,0 +1,31 @@
+:root {
+    --rw-color-page-background: rgba(14, 17, 22, 1);
+    --rw-color-outline: rgba(49, 54, 60, 1);
+    --rw-raised-1-color: rgba(34, 38, 44, 1);
+    --rw-raised-2-color: rgba(42, 46, 53, 1);
+    --rw-raised-3-color: rgba(50, 54, 61, 1);
+    --rw-color-text: rgba(231, 237, 242, 1);
+    --rw-color-muted: rgb(132, 141, 151);
+    --rw-color-on-emphasis: #ffffff;
+    --rw-color-disabled: #8c959f;
+    --rw-color-link: #0969da;
+    --rw-color-success: rgb(63, 185, 80);;
+    --rw-color-attention: #9a6700;
+    --rw-color-severe: #bc4c00;
+    --rw-color-danger: #d1242f;
+    --rw-color-open: rgb(63, 185, 80);;
+    --rw-color-closed: #d1242f;
+    --rw-color-done: #8250df;
+}
+
+.rw-color-open {
+    color: var(--rw-color-open);
+}
+
+.rw-color-closed {
+    color: var(--rw-color-closed);
+}
+
+.rw-color-done {
+    color: var(--rw-color-done);
+}

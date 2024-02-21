@@ -1,0 +1,46 @@
+.rw-button {
+    cursor: pointer;
+    font-weight: var(--rw-font-weight-regular);
+}
+
+/* Sizes */
+
+.rw-button:where(.rw-size-1) {
+    padding: 8px;
+    font-size: var(--rw-font-size-1);
+    border-radius: 6px;
+}
+
+.rw-button:where(.rw-size-2) {
+    padding: 8px;
+    font-size: var(--rw-font-size-2);
+    border-radius: 6px;
+}
+
+.rw-button:where(.rw-size-3) {
+    padding: 8px;
+    font-size: var(--rw-font-size-3);
+    border-radius: 6px;
+}
+
+/* Default button */
+
+.rw-button:where(.rw-button-default) {
+    background-color: var(--rw-raised-2-color);
+}
+
+.rw-button:where(.rw-button-default):hover {
+    background-color: var(--rw-raised-3-color);
+}
+
+/* Outlined button */
+
+.rw-button:where(.rw-button-outlined) {
+    border: 1px solid var(--rw-color-outline);
+}
+
+.rw-button:where(.rw-button-outlined):hover {
+    background-color: var(--rw-raised-3-color);
+}
+
+

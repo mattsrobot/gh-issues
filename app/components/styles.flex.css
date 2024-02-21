@@ -1,0 +1,35 @@
+.rw-flex {
+    display: flex;
+}
+
+.rw-flex:where(.rw-flex-row) {
+    flex-direction: row;
+}
+
+.rw-flex:where(.rw-flex-column) {
+    flex-direction: column;
+}
+
+.rw-flex-gap-0 {
+    gap: 0px;
+}
+
+.rw-flex-gap-1 {
+    gap: 8px;
+}
+
+.rw-flex-gap-2 {
+    gap: 12px;
+}
+
+.rw-flex-gap-3 {
+    gap: 16px;
+}
+
+.rw-flex-gap-4 {
+    gap: 24px;
+}
+
+.rw-flex-gap-5 {
+    gap: 30px;
+}

@@ -1,0 +1,77 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Mona Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local(''),
+        url('/fonts/mona-sans/MonaSans-Light.woff2') format('woff2'),
+        url('/fonts/mona-sans/MonaSans-Lightr.ttf') format('ttf');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Mona Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+        url('/fonts/mona-sans/MonaSans-Regular.woff2') format('woff2'),
+        url('/fonts/mona-sans/MonaSans-Regular.ttf') format('ttf');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Mona Sans';
+    font-style: normal;
+    font-weight: 500;
+    src: local(''),
+        url('/fonts/mona-sans/MonaSans-Medium.woff2') format('woff2'),
+        url('/fonts/mona-sans/MonaSans-Medium.ttf') format('ttf');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Mona Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: local(''),
+        url('/fonts/mona-sans/MonaSans-SemiBold.woff2') format('woff2'),
+        url('/fonts/mona-sans/MonaSans-SemiBold.ttf') format('ttf');
+}
+
+
+@font-face {
+    font-display: swap;
+    font-family: 'Mona Sans';
+    font-style: bold;
+    font-weight: 700;
+    src: local(''),
+        url('/fonts/mona-sans/MonaSans-Bold.woff2') format('woff2'),
+        url('/fonts/mona-sans/MonaSans-Bold.ttf') format('ttf');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Mona Sans';
+    font-style: normal;
+    font-weight: 800;
+    src: local(''),
+        url('/fonts/mona-sans/MonaSans-ExtraBold.woff2') format('woff2'),
+        url('/fonts/mona-sans/MonaSans-ExtraBold.ttf') format('ttf');
+}
+
+
+:root {
+    --rw-font-family: 'Mona Sans', sans-serif;
+    --rw-font-weight-light: 300;
+    --rw-font-weight-regular: 400;
+    --rw-font-weight-medium: 500;
+    --rw-font-weight-semi-bold: 600;
+    --rw-font-weight-bold: 700;
+    --rw-font-weight-extra-bold: 800;
+
+    --rw-font-size-1: 16px;
+    --rw-font-size-2: 18px;
+    --rw-font-size-3: 20px;
+    --rw-font-size-4: 24px;
+}
+

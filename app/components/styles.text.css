@@ -1,0 +1,99 @@
+.rw-text {
+    color: var(--rw-color-text);
+    font-weight: var(--rw-font-weight-regular);
+    font-size: var(--rw-font-size-1);
+}
+
+/* Sizes */
+
+.rw-text:where(.rw-size-1) {
+    font-size: var(--rw-font-size-1);
+}
+
+.rw-text:where(.rw-size-2) {
+    font-size: var(--rw-font-size-2);
+}
+
+.rw-text:where(.rw-size-3) {
+    font-size: var(--rw-font-size-3);
+}
+
+.rw-text:where(.rw-size-4) {
+    font-size: var(--rw-font-size-4);
+}
+
+/* Colors */
+
+.rw-text:where(.rw-text-color-text) {
+    color: var(--rw-color-text);
+}
+
+.rw-text:where(.rw-text-color-muted) {
+    color: var(--rw-color-muted);
+}
+
+.rw-text:where(.rw-text-color-on-emphasis) {
+    color: var(--rw-color-on-emphasis);
+}
+
+.rw-text:where(.rw-text-color-disabled) {
+    color: var(--rw-color-disabled);
+}
+
+.rw-text:where(.rw-text-color-link) {
+    color: var(--rw-color-link);
+}
+
+.rw-text:where(.rw-text-color-success) {
+    color: var(--rw-color-success);
+}
+
+.rw-text:where(.rw-text-color-attention) {
+    color: var(--rw-color-attention);
+}
+
+.rw-text:where(.rw-text-color-severe) {
+    color: var(--rw-color-severe);
+}
+
+.rw-text:where(.rw-text-color-danger) {
+    color: var(--rw-color-danger);
+}
+
+.rw-text:where(.rw-text-color-open) {
+    color: var(--rw-color-open);
+}
+
+.rw-text:where(.rw-text-color-closed) {
+    color: var(--rw-color-closed);
+}
+
+.rw-text:where(.rw-text-color-done) {
+    color: var(--rw-color-done);
+}
+
+/* Weights */
+
+.rw-text:where(.rw-text-weight-light) {
+    font-weight: var(--rw-font-weight-light);
+}
+
+.rw-text:where(.rw-text-weight-regular) {
+    font-weight: var(--rw-font-weight-regular);
+}
+
+.rw-text:where(.rw-text-weight-medium) {
+    font-weight: var(--rw-font-weight-medium);
+}
+
+.rw-text:where(.rw-text-weight-semi-bold) {
+    font-weight: var(--rw-font-weight-semi-bold);
+}
+
+.rw-text:where(.rw-text-weight-bold) {
+    font-weight: var(--rw-font-weight-bold);
+}
+
+.rw-text:where(.rw-text-weight-extra-bold) {
+    font-weight: var(--rw-font-weight-extra-bold);
+}

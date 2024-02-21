@@ -1,0 +1,9 @@
+@import url("./styles.reset.css");
+@import url("./styles.colors.css");
+@import url("./styles.fonts.css");
+
+body {
+    background-color: var(--rw-color-page-background);
+    color: var(--rw-color-text);
+    font-family: var(--rw-font-family);
+}
