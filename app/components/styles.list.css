@@ -4,7 +4,11 @@
     padding: 0px;
 }
 
-.rw-list > :hover {
+.rw-list > :not(.rw-list-header) {
+    cursor: pointer;
+}
+
+.rw-list > :not(.rw-list-header):hover {
     background-color: var(--rw-raised-1-color);
 }
 
