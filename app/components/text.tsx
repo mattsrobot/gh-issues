@@ -10,7 +10,7 @@ type TextProps = {
 
 const defaultProps = {
     weight: "regular",
-    size: "1",
+    size: "2",
     color: "text",
     className: "",
 };

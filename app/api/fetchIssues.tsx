@@ -12,12 +12,16 @@ query repository($owner: String!, $name: String!) {
             totalCount
             nodes {
                 id
-                title
+                createdAt
+                titleHTML
                 body
                 number
                 author {
                     login
-                    avatarUrl
+                    avatarUrl(size: 30)
+                }
+                commentsCount: comments {
+                    totalCount
                 }
             }
         }
@@ -46,9 +50,14 @@ export type IssueConnection = {
 
 export type Issue = {
     id: string
-    title: string
+    createdAt: string;
+    titleHTML: string
     number: number
     body?: string
+    author: Author
+    commentsCount: {
+        totalCount: number;
+    }
 }
 
 export type Author = {

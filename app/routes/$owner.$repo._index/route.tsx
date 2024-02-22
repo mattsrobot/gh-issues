@@ -85,7 +85,7 @@ export default function Index() {
             <List>
                 <ListHeader>
                     <Button variant="ghost">
-                        <Flex direction="row" align="center" gap="1">
+                        <Flex direction="row" align="center" gap="2">
                             <IssueOpenedIcon size={18} /> Open {openCount}
                         </Flex>
                     </Button>

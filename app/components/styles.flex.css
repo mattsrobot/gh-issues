@@ -12,6 +12,16 @@
     flex-direction: column;
 }
 
+/* Flex Sizing */
+
+.rw-flex:where(.rw-flex-auto) {
+    flex: auto !important;
+}
+
+.rw-flex:where(.rw-flex-shrink) {
+    flex-shrink: 0 !important;
+}
+
 /* Flex Alignment */
 
 .rw-flex:where(.rw-flex-align-start) {
@@ -41,23 +51,23 @@
 }
 
 .rw-flex:where(.rw-flex-gap-1) {
-    gap: 8px;
+    gap: 4px;
 }
 
 .rw-flex:where(.rw-flex-gap-2) {
-    gap: 12px;
+    gap: 8px;
 }
 
 .rw-flex:where(.rw-flex-gap-3) {
-    gap: 16px;
+    gap: 12px;
 }
 
 .rw-flex:where(.rw-flex-gap-4) {
-    gap: 24px;
+    gap: 16px;
 }
 
 .rw-flex:where(.rw-flex-gap-5) {
-    gap: 30px;
+    gap: 20px;
 }
 
 /* Flex Padding */

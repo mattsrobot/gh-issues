@@ -1,8 +1,14 @@
 .rw-text {
     color: var(--rw-color-text);
     font-weight: var(--rw-font-weight-regular);
-    font-size: var(--rw-font-size-1);
+    font-size: var(--rw-font-size-2);
     -webkit-font-smoothing: antialiased;
+}
+
+.rw-text * code {
+    box-shadow: 0px 0px 0px 2px var(--rw-raised-3-color);
+    background-color: var(--rw-raised-3-color);
+    border-radius: 2px;
 }
 
 /* Sizes */
