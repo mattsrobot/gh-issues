@@ -35,7 +35,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
         const response: IssuesResponse = await octokit.graphql(fetchIssuesQuery, {
             owner: "rails",
-            name: "rails"
+            name: "rails",
+            state: ["OPEN"]
         });
 
         const repository = response.repository
@@ -48,6 +49,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
         });
 
     } catch (error) {
+        console.error(error);
+
         let status, message;
 
         if (error instanceof RequestError) {

@@ -23,11 +23,11 @@ export default function IssueCard(props: IssueCardProps) {
                         <span dangerouslySetInnerHTML={{ __html: issue.titleHTML }} />
                     </Text>
                     <Text size="1" weight="regular" color="muted">
-                        #{issue.number} opened {dayjs(issue.createdAt).fromNow()} by {issue.author.login}
+                        #{issue.number} opened {dayjs(issue.createdAt).fromNow()} by <span className="rw-accent-hover">{issue.author?.login}</span>
                     </Text>
                 </Flex>
             </Flex>
-            {issue.commentsCount.totalCount > 0 && <Flex direction="row" align="end" gap="1" shrink>
+            {issue.commentsCount.totalCount > 0 && <Flex className="rw-accent-hover" direction="row" align="end" gap="1" shrink>
                 <CommentIcon className="rw-color-muted" size={15} />
                 <Text size="1" color="muted">{issue.commentsCount.totalCount}</Text>
             </Flex>}

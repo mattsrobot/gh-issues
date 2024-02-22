@@ -9,6 +9,7 @@
     --rw-color-on-emphasis: #ffffff;
     --rw-color-disabled: #8c959f;
     --rw-color-link: #0969da;
+    --rw-color-accent: #0969da;
     --rw-color-success: rgb(63, 185, 80);;
     --rw-color-attention: #9a6700;
     --rw-color-severe: #bc4c00;
@@ -32,4 +33,12 @@
 
 .rw-color-muted {
     color: var(--rw-color-muted);
+}
+
+.rw-accent-hover:hover {
+    color: var(--rw-color-accent) !important;
+}
+
+.rw-accent-hover:hover > * {
+    color: var(--rw-color-accent) !important;
 }
