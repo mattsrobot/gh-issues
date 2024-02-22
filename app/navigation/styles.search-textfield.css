@@ -2,7 +2,7 @@
     background-color: var(--rw-color-page-muted);
     border: 1px solid var(--rw-color-outline);
     padding: 4px;
-    padding-left: 8px;
+    padding-left: 30px;
     padding-right: 8px;
     border-radius: 6px;
     font-size: var(--rw-font-size-1);
@@ -10,10 +10,22 @@
 
 .rw-search-textfield:focus {
     border: 1px solid var(--rw-color-accent);
+    box-shadow: 0px 0px 0px 1px var(--rw-color-accent);
 }
-
 
 .rw-search-textfield::placeholder {
     font-size: var(--rw-font-size-1);
+    color: var(--rw-color-muted);
+}
+
+.rw-search-textfield-container {
+    position: relative;
+    width: 100%;
+}
+
+.rw-search-icon {
+    position: absolute;
+    left: 6px;
+    top: 6px;
     color: var(--rw-color-muted);
 }

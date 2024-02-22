@@ -115,7 +115,7 @@ export default function Index() {
                             <Text>/</Text>
                             <Button>{owner}</Button>
                         </Flex>
-                        <SearchTextField placeholder="Search issues" />
+                        <SearchTextField placeholder="Search" />
                     </Flex>
                 </CenteredContent>
             </TopNavigation>
