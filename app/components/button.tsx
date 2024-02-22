@@ -18,10 +18,13 @@ const defaultProps = {
 
 function Button(props: ButtonProps) {
     const { onClick, children, size, variant, muted, className } = props;
-    let styles = `rw-reset rw-button rw-size-${size} rw-button-${variant} ${className}`;
+    let styles = `rw-reset rw-button rw-size-${size} rw-button-${variant}`;
     if (muted) {
         styles = `${styles} rw-button-muted`;
     }
+
+    styles = `${styles} ${className}`;
+
     return (
         <button className={styles} onClick={onClick}>
             {children}

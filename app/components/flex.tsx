@@ -23,7 +23,7 @@ const defaultProps = {
 
 function Flex(props: FlexProps) {
     const { direction, className, gap, align, padding, auto, shrink, children } = props;
-    let styles = `rw-flex rw-flex-${direction} rw-flex-gap-${gap} rw-flex-align-${align} rw-flex-padding-${padding} ${className}`;
+    let styles = `rw-flex rw-flex-${direction} rw-flex-gap-${gap} rw-flex-align-${align} rw-flex-padding-${padding}`;
 
     if (auto) {
         styles = `${styles} rw-flex-auto`;
