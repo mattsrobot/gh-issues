@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Card, List, ListHeader, Button, Flex } from "~/components";
+import { Card, List, ListHeader, Button, Flex, Text } from "~/components";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
@@ -10,6 +10,7 @@ import { createTokenAuth } from "@octokit/auth-token";
 import { CenteredContent } from "~/layouts";
 import { fetchIssuesQuery, IssuesResponse } from "~/api/fetchIssues";
 import { useCallback } from "react";
+import { TopNavigation, SearchTextField } from "~/navigation";
 
 type IssueState = "open" | "closed";
 
@@ -46,12 +47,14 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             states: [state.toUpperCase()]
         });
 
-        const repository = response.repository
+        const data = response.repository
 
         logRequest.info('✅ completed fetching issues');
 
         return json({
-            repository,
+            owner,
+            repo,
+            data,
             error: null
         });
 
@@ -77,17 +80,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         logError.error('🔥 had an error fetching issues');
 
         return json({
-            repository: null,
+            owner,
+            repo,
+            data: null,
             error: message
         });
     }
 }
 
 export default function Index() {
-    const { repository, error } = useLoaderData<typeof loader>();
+    const { data, error, repo, owner } = useLoaderData<typeof loader>();
 
-    const openCount = repository?.openIssues?.totalCount ?? "";
-    const closedCount = repository?.closedIssues?.totalCount ?? "";
+    const openCount = data?.openIssues?.totalCount ?? "";
+    const closedCount = data?.closedIssues?.totalCount ?? "";
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -101,23 +106,37 @@ export default function Index() {
     }, [setSearchParams, searchParams]);
 
     return (
-        <CenteredContent>
-            <List>
-                <ListHeader>
-                    <Button variant="ghost" muted={state == "closed"} onClick={() => updateState("open")}>
-                        <Flex direction="row" align="center" gap="2">
-                            <IssueOpenedIcon size={15} /> Open {openCount}
+        <>
+            <TopNavigation>
+                <CenteredContent>
+                    <Flex direction="row" gap="3" align="center" padding="3">
+                        <Flex direction="row" gap="1" align="center">
+                            <Button>{owner}</Button>
+                            <Text>/</Text>
+                            <Button>{owner}</Button>
                         </Flex>
-                    </Button>
-                    <Button variant="ghost" muted={state == "open"} onClick={() => updateState("closed")}>
-                        Closed {closedCount}
-                    </Button>
-                </ListHeader>
-                {!!error && <Card>
-                    {`Got an error - ${error}`}
-                </Card>}
-                {repository?.issues?.nodes?.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} />)}
-            </List>
-        </CenteredContent>
+                        <SearchTextField placeholder="Search issues" />
+                    </Flex>
+                </CenteredContent>
+            </TopNavigation>
+            <CenteredContent>
+                <List>
+                    <ListHeader>
+                        <Button variant="ghost" muted={state == "closed"} onClick={() => updateState("open")}>
+                            <Flex direction="row" align="center" gap="2">
+                                <IssueOpenedIcon size={15} /> Open {openCount}
+                            </Flex>
+                        </Button>
+                        <Button variant="ghost" muted={state == "open"} onClick={() => updateState("closed")}>
+                            Closed {closedCount}
+                        </Button>
+                    </ListHeader>
+                    {!!error && <Card>
+                        {`Got an error - ${error}`}
+                    </Card>}
+                    {data?.issues?.nodes?.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} />)}
+                </List>
+            </CenteredContent>
+        </>
     );
 }

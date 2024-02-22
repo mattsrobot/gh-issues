@@ -6,6 +6,8 @@ body {
     background-color: var(--rw-color-page-background);
     color: var(--rw-color-text);
     font-family: var(--rw-font-family);
+    margin: 0px;
+    padding: 0px;
 }
 
 .rw-smol-avatar {

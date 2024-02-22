@@ -6,8 +6,9 @@ type FlexProps = {
     gap: "0" | "1" | "2" | "3" | "4" | "5"
     align: "center" | "start" | "end" | "baseline" | "stretch"
     padding: "0" | "1" | "2" | "3" | "4" | "5"
-    auto?: boolean;
-    shrink?: boolean;
+    auto?: boolean
+    shrink?: boolean
+    fullHeight?: boolean
     children?: React.ReactNode
 } & typeof defaultProps;
 
@@ -19,10 +20,11 @@ const defaultProps = {
     padding: "0",
     auto: false,
     shrink: false,
+    fullHeight: false,
 };
 
 function Flex(props: FlexProps) {
-    const { direction, className, gap, align, padding, auto, shrink, children } = props;
+    const { direction, className, gap, align, padding, auto, shrink, fullHeight, children } = props;
     let styles = `rw-flex rw-flex-${direction} rw-flex-gap-${gap} rw-flex-align-${align} rw-flex-padding-${padding}`;
 
     if (auto) {
@@ -31,6 +33,10 @@ function Flex(props: FlexProps) {
 
     if (shrink) {
         styles = `${styles} rw-flex-shrink`;
+    }
+
+    if (fullHeight) {
+        styles = `${styles} rw-flex-full-height`;
     }
 
     styles = `${styles} ${className}`;

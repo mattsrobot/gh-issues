@@ -1,4 +1,5 @@
 :root {
+    --rw-color-page-muted: rgba(2, 4, 8, 1);
     --rw-color-page-background: rgba(14, 17, 22, 1);
     --rw-color-outline: rgba(49, 54, 60, 1);
     --rw-raised-1-color: rgba(34, 38, 44, 1);

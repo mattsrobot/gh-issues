@@ -22,6 +22,10 @@
     flex-shrink: 0 !important;
 }
 
+.rw-flex:where(.rw-flex-full-height) {
+    height: 100%;
+}
+
 /* Flex Alignment */
 
 .rw-flex:where(.rw-flex-align-start) {

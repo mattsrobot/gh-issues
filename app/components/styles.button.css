@@ -31,10 +31,6 @@
 
 /* Default button */
 
-.rw-button:where(.rw-button-default) {
-    background-color: var(--rw-raised-2-color);
-}
-
 .rw-button:where(.rw-button-default):hover {
     background-color: var(--rw-raised-3-color);
 }
