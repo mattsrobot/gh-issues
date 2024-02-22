@@ -42,12 +42,15 @@
 /* Ghost button */
 
 .rw-button:where(.rw-button-ghost) {
+    padding-left: 0px;
+    padding-right: 0px;
     background-color: unset;
     font-weight: 500;
 }
 
 .rw-button:where(.rw-button-ghost):hover {
-    background-color: var(--rw-raised-3-color);
+    background-color: unset;
+    color: var(--rw-color-text);
 }
 
 .rw-button-ghost:where(.rw-button-muted) {
