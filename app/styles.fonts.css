@@ -61,7 +61,7 @@
 
 
 :root {
-    --rw-font-family: 'Mona Sans', sans-serif;
+    --rw-font-family: 'Mona Sans', system-ui, sans-serif;
     --rw-font-weight-light: 300;
     --rw-font-weight-regular: 400;
     --rw-font-weight-medium: 500;
