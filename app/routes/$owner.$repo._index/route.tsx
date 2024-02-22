@@ -1,16 +1,18 @@
 import type { MetaFunction } from "@remix-run/node";
+import { json, LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 import { Card, List, ListHeader, Button, Flex, Text } from "~/components";
-import { json, LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData, useSearchParams, useFetcher } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
 import { IssueOpenedIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
 import logger from "~/components/logger";
 import { createTokenAuth } from "@octokit/auth-token";
 import { CenteredContent } from "~/layouts";
-import { fetchIssuesQuery, IssuesResponse } from "~/api/fetchIssues";
-import { useCallback } from "react";
+import { fetchIssuesQuery, IssuesResponse, Issue } from "~/api/fetchIssues";
+import { searchIssues, SearchResponse } from "~/api/searchIssues";
+import { useCallback, useEffect, useState } from "react";
 import { TopNavigation, SearchTextField } from "~/navigation";
+import { useDebounceCallback } from "~/helpers/use-debounce";
 
 type IssueState = "open" | "closed";
 
@@ -24,13 +26,78 @@ export const meta: MetaFunction = ({ params }) => {
     ];
 };
 
+export async function action({ request, params }: ActionFunctionArgs) {
+    const repo = params.repo ?? "";
+    const owner = params.owner ?? "";
+
+    const logRequest = logger.child({ repo, owner, });
+    logRequest.info('🏃 starting search issues');
+
+    try {
+        const auth = createTokenAuth(process.env.GITHUB_AUTH_TOKEN!);
+
+        const { token } = await auth();
+
+        const octokit = new Octokit({
+            auth: token,
+        });
+
+        const body = await request.formData();
+
+        const url = new URL(request.url);
+        const state = url.searchParams.get("state") ?? "open";
+
+        const searchQuery = `repo:${owner}/${repo} type:issue state:${state} in:title sort:createdAt-desc ${body.get("query")}`;
+
+        logRequest.info(`🏃 searching ${searchQuery}`);
+
+        const data: SearchResponse = await octokit.graphql(searchIssues, {
+            owner,
+            name: repo,
+            searchQuery,
+        });
+
+        logRequest.info('✅ completed searching issues');
+
+        console.log(data);
+
+        return json({
+            owner,
+            repo,
+            data,
+            error: null
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        const logError = logger.child({
+            repo,
+            owner,
+            error
+        });
+
+        logError.error('🔥 had an error searching issues');
+
+        return json({
+            owner,
+            repo,
+            data: null,
+            error: error
+        });
+    }
+}
+
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const repo = params.repo ?? "";
     const owner = params.owner ?? "";
 
     try {
         const auth = createTokenAuth(process.env.GITHUB_AUTH_TOKEN!);
+
         const { token } = await auth();
+
         const octokit = new Octokit({
             auth: token,
         });
@@ -42,7 +109,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         logRequest.info('🏃 starting fetching issues');
 
         const response: IssuesResponse = await octokit.graphql(fetchIssuesQuery, {
-            owner: owner,
+            owner,
             name: repo,
             states: [state.toUpperCase()]
         });
@@ -89,7 +156,14 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 export default function Index() {
+
     const { data, error, repo, owner } = useLoaderData<typeof loader>();
+
+    const [issues, setIssues] = useState(data?.issues?.nodes ?? []);
+
+    const searchFetcher = useFetcher<typeof action>({ key: "search" });
+
+    const actionData = searchFetcher.data;
 
     const openCount = data?.openIssues?.totalCount ?? "";
     const closedCount = data?.closedIssues?.totalCount ?? "";
@@ -103,7 +177,35 @@ export default function Index() {
         setSearchParams(searchParams, {
             preventScrollReset: true,
         });
-    }, [setSearchParams, searchParams]);
+    }, [searchParams]);
+
+    const [searchInput, setSearchInput] = useState('')
+
+    const debouncedSearchInput = useDebounceCallback(setSearchInput, 500);
+
+    useEffect(() => {
+        if (searchInput.length == 0) {
+            setIssues(data?.issues?.nodes ?? []);
+            return;
+        }
+
+        const postData = {
+            __action: "search",
+            query: searchInput
+        }
+
+        searchFetcher.submit(postData, {
+            method: "post",
+        });
+    }, [searchInput]);
+
+
+    useEffect(() => {
+        if (actionData) {
+            const changes = actionData.data?.search?.nodes ?? [];
+            setIssues(changes);
+        }
+    }, [actionData]);
 
     return (
         <>
@@ -113,9 +215,9 @@ export default function Index() {
                         <Flex direction="row" align="center">
                             <Button>{owner}</Button>
                             <Text color="muted">/</Text>
-                            <Button>{owner}</Button>
+                            <Button>{repo}</Button>
                         </Flex>
-                        <SearchTextField placeholder="Search" />
+                        <SearchTextField placeholder="Search" onChange={debouncedSearchInput} />
                     </Flex>
                 </CenteredContent>
             </TopNavigation>
@@ -131,10 +233,13 @@ export default function Index() {
                             Closed {closedCount}
                         </Button>
                     </ListHeader>
-                    {!!error && <Card>
-                        {`Got an error - ${error}`}
-                    </Card>}
-                    {data?.issues?.nodes?.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} />)}
+                    {issues.length == 0 ?
+                        <Flex className="rw-no-results" padding="5" direction="column" align="center">
+                            {!!error ?
+                                <Text color="danger">{error}</Text> :
+                                <Text color="muted" weight="bold">No results</Text>}
+                        </Flex> :
+                        issues.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} />)}
                 </List>
             </CenteredContent>
         </>

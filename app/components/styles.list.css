@@ -2,13 +2,16 @@
     display: flex;
     flex-direction: column;
     padding: 0px;
+    border: 0.5px solid var(--rw-color-outline);
+    overflow: hidden;
+    border-radius: 6px;
 }
 
-.rw-list > :not(.rw-list-header) {
+.rw-list > :not(.rw-list-header, .rw-no-results) {
     cursor: pointer;
 }
 
-.rw-list > :not(.rw-list-header):hover {
+.rw-list > :not(.rw-list-header, .rw-no-results):hover {
     background-color: var(--rw-raised-1-color);
 }
 
