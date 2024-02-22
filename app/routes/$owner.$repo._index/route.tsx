@@ -8,6 +8,7 @@ import IssueCard from "./issue-card";
 import logger from "~/components/logger";
 import { createTokenAuth } from "@octokit/auth-token";
 import { CenteredContent } from "~/layouts";
+import { fetchIssuesQuery, IssuesResponse } from "~/api/fetchIssues";
 
 export const meta: MetaFunction = () => {
     return [
@@ -32,19 +33,25 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
     try {
 
-        const { data } = await octokit
-            .rest
-            .issues
-            .listForRepo({ owner: owner, repo: repo });
+        const response: IssuesResponse = await octokit.graphql(fetchIssuesQuery, {
+            owner: "rails",
+            name: "rails"
+        });
+
+        console.log(response);
+
+        const repository = response.repository
 
         logRequest.info('✅ completed fetching issues');
 
         return json({
-            data,
+            repository,
             error: null
         });
 
     } catch (error) {
+        console.log(error);
+
         let status, message;
 
         if (error instanceof RequestError) {
@@ -65,31 +72,35 @@ export async function loader({ params }: LoaderFunctionArgs) {
         logError.error('🔥 had an error fetching issues');
 
         return json({
-            data: null,
+            repository: null,
             error: message
         });
     }
 }
 
 export default function Index() {
-    const { data, error } = useLoaderData<typeof loader>();
+    const { repository, error } = useLoaderData<typeof loader>();
+
+    const openCount = repository?.openIssues?.totalCount ?? "";
+    const closedCount = repository?.closedIssues?.totalCount ?? "";
+
     return (
         <CenteredContent>
             <List>
                 <ListHeader>
                     <Button variant="ghost">
                         <Flex direction="row" align="center" gap="1">
-                            <IssueOpenedIcon size={18} /> Open
+                            <IssueOpenedIcon size={18} /> Open {openCount}
                         </Flex>
                     </Button>
                     <Button variant="ghost" muted>
-                        Closed
+                        Closed {closedCount}
                     </Button>
                 </ListHeader>
                 {!!error && <Card>
                     {`Got an error - ${error}`}
                 </Card>}
-                {data?.map((e) => <IssueCard key={e.id} issue={e} />)}
+                {repository?.issues?.nodes?.map((e) => <IssueCard key={e.id} issue={e} />)}
             </List>
         </CenteredContent>
     );
