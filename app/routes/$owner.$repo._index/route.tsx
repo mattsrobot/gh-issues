@@ -38,8 +38,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
             name: "rails"
         });
 
-        console.log(response);
-
         const repository = response.repository
 
         logRequest.info('✅ completed fetching issues');
@@ -50,8 +48,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
         });
 
     } catch (error) {
-        console.log(error);
-
         let status, message;
 
         if (error instanceof RequestError) {
