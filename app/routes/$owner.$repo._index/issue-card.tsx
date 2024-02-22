@@ -45,7 +45,7 @@ export default function IssueCard(props: IssueCardProps) {
             </Flex>
             <Flex direction="row" align="center" gap="4">
                 {issue.assignees.totalCount > 0 && <Flex className="rw-accent-hover" direction="row" align="center" gap="1" shrink>
-                    {issue.assignees.nodes.map((e) => <img className="rw-smol-avatar" key={`${issue.id}-${e.login}`} src={e.avatarUrl} />)}
+                    {issue.assignees.nodes.map((e) => <img alt={e.login} className="rw-smol-avatar" key={`${issue.id}-${e.login}`} src={e.avatarUrl} />)}
                 </Flex>}
                 {issue.commentsCount.totalCount > 0 && <Flex className="rw-accent-hover" direction="row" align="end" gap="1" shrink>
                     <CommentIcon className="rw-color-muted" size={15} />
