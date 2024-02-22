@@ -28,7 +28,7 @@ export default function IssueCard(props: IssueCardProps) {
                 </Flex>
             </Flex>
             {issue.commentsCount.totalCount > 0 && <Flex direction="row" align="end" gap="1" shrink>
-                <CommentIcon size={15} />
+                <CommentIcon className="rw-color-muted" size={15} />
                 <Text size="1" color="muted">{issue.commentsCount.totalCount}</Text>
             </Flex>}
         </Flex>
