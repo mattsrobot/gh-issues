@@ -71,6 +71,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             owner,
             message,
             status,
+            error
         });
 
         logError.error('🔥 had an error fetching issues');
