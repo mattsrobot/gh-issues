@@ -15,7 +15,7 @@ type IssueCardProps = {
 export default function IssueCard(props: IssueCardProps) {
     const { issue } = props;
     return (
-        <Flex direction="row" gap="1" padding="1">
+        <Flex direction="row" gap="4" padding="1" align="start">
             <Flex align="start" gap="2" auto>
                 <IssueOpenedIcon className="rw-color-open" size={18} />
                 <Flex direction="column" gap="1">
@@ -27,10 +27,15 @@ export default function IssueCard(props: IssueCardProps) {
                     </Text>
                 </Flex>
             </Flex>
-            {issue.commentsCount.totalCount > 0 && <Flex className="rw-accent-hover" direction="row" align="end" gap="1" shrink>
-                <CommentIcon className="rw-color-muted" size={15} />
-                <Text size="1" color="muted">{issue.commentsCount.totalCount}</Text>
-            </Flex>}
+            <Flex direction="row" align="center" gap="4">
+                {issue.assignees.totalCount > 0 && <Flex className="rw-accent-hover" direction="row" align="center" gap="1" shrink>
+                    {issue.assignees.nodes.map((e) => <img className="rw-smol-avatar" key={`${issue.id}-${e.login}`} src={e.avatarUrl} />)}
+                </Flex>}
+                {issue.commentsCount.totalCount > 0 && <Flex className="rw-accent-hover" direction="row" align="end" gap="1" shrink>
+                    <CommentIcon className="rw-color-muted" size={15} />
+                    <Text size="1" color="muted">{issue.commentsCount.totalCount}</Text>
+                </Flex>}
+            </Flex>
         </Flex>
     );
 }

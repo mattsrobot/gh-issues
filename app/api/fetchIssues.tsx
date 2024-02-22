@@ -9,7 +9,6 @@ query repository($owner: String!, $name: String!, $states: [IssueState!]) {
             totalCount
         }
         issues(first: 50, filterBy: { states: $states }, orderBy: { field: CREATED_AT, direction: DESC } ) {
-            totalCount
             nodes {
                 id
                 createdAt
@@ -54,6 +53,11 @@ export type IssueConnection = {
     nodes: [Issue]
 }
 
+export type ActorConnection = {
+    totalCount: number;
+    nodes: [Actor]
+}
+
 export type Issue = {
     id: string
     createdAt: string;
@@ -61,6 +65,7 @@ export type Issue = {
     number: number
     body?: string
     author: Actor
+    assignees: ActorConnection
     commentsCount: {
         totalCount: number;
     }

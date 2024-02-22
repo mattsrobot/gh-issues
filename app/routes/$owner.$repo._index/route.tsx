@@ -34,8 +34,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
     try {
 
         const response: IssuesResponse = await octokit.graphql(fetchIssuesQuery, {
-            owner: "rails",
-            name: "rails",
+            owner: owner,
+            name: repo,
             state: ["OPEN"]
         });
 
