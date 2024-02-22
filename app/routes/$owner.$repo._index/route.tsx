@@ -110,9 +110,9 @@ export default function Index() {
             <TopNavigation>
                 <CenteredContent>
                     <Flex direction="row" gap="3" align="center" padding="3">
-                        <Flex direction="row" gap="1" align="center">
+                        <Flex direction="row" align="center">
                             <Button>{owner}</Button>
-                            <Text>/</Text>
+                            <Text color="muted">/</Text>
                             <Button>{owner}</Button>
                         </Flex>
                         <SearchTextField placeholder="Search" />
