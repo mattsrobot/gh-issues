@@ -24,23 +24,21 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
-
-    const auth = createTokenAuth(process.env.GITHUB_AUTH_TOKEN!);
-    const { token } = await auth();
-    const octokit = new Octokit({
-        auth: token,
-    });
-
-    const url = new URL(request.url);
-    const state = url.searchParams.get("state") ?? "open";
-
     const repo = params.repo ?? "";
     const owner = params.owner ?? "";
 
-    const logRequest = logger.child({ repo, owner, });
-    logRequest.info('🏃 starting fetching issues');
-
     try {
+        const auth = createTokenAuth(process.env.GITHUB_AUTH_TOKEN!);
+        const { token } = await auth();
+        const octokit = new Octokit({
+            auth: token,
+        });
+
+        const url = new URL(request.url);
+        const state = url.searchParams.get("state") ?? "open";
+
+        const logRequest = logger.child({ repo, owner, });
+        logRequest.info('🏃 starting fetching issues');
 
         const response: IssuesResponse = await octokit.graphql(fetchIssuesQuery, {
             owner: owner,
