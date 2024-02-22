@@ -13,10 +13,13 @@ import { useCallback } from "react";
 
 type IssueState = "open" | "closed";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = ({ params }) => {
+    const repo = params.repo ?? "";
+    const owner = params.owner ?? "";
+
     return [
-        { title: "Org Repo" },
-        { name: "description", content: "Welcome to Remix!" },
+        { title: `Issues ${owner}/${repo}` },
+        { name: "description", content: "Welcome!" },
     ];
 };
 
