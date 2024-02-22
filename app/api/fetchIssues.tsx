@@ -28,6 +28,14 @@ query repository($owner: String!, $name: String!, $states: [IssueState!]) {
                       avatarUrl(size: 20)
                     }
                 }
+                labels(first: 10) {
+                    totalCount
+                    nodes {
+                      id
+                      name
+                      color
+                    }
+                }
                 commentsCount: comments {
                     totalCount
                 }
@@ -56,11 +64,6 @@ export type IssueConnection = {
     nodes: [Issue]
 }
 
-export type ActorConnection = {
-    totalCount: number
-    nodes: [Actor]
-}
-
 type IssueStateReason = "REOPENED" | "NOT_PLANNED" | "COMPLETED";
 
 export type Issue = {
@@ -73,10 +76,27 @@ export type Issue = {
     stateReason?: IssueStateReason
     body?: string
     author: Actor
+    labels: LabelConnection
     assignees: ActorConnection
     commentsCount: {
         totalCount: number
     }
+}
+
+export type LabelConnection = {
+    totalCount: number
+    nodes: [Label]
+}
+
+export type Label = {
+    id: string
+    name: string
+    color: string
+}
+
+export type ActorConnection = {
+    totalCount: number
+    nodes: [Actor]
 }
 
 export type Actor = {

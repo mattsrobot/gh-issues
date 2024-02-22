@@ -18,7 +18,7 @@ export const meta: MetaFunction = ({ params }) => {
     const owner = params.owner ?? "";
 
     return [
-        { title: `Issues ${owner}/${repo}` },
+        { title: `Issues - ${owner}/${repo}` },
         { name: "description", content: "Welcome!" },
     ];
 };
@@ -117,7 +117,7 @@ export default function Index() {
                 {!!error && <Card>
                     {`Got an error - ${error}`}
                 </Card>}
-                {repository?.issues?.nodes?.map((e) => <IssueCard key={e.id} issue={e} />)}
+                {repository?.issues?.nodes?.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} />)}
             </List>
         </CenteredContent>
     );

@@ -1,9 +1,13 @@
-import { Flex, Text } from "~/components";
+import { Flex, Text, Label } from "~/components";
 import { IssueOpenedIcon, IssueClosedIcon, CircleSlashIcon } from '@primer/octicons-react';
 import { Issue } from "~/api/fetchIssues";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { CommentIcon } from '@primer/octicons-react';
+import hexToRGB from "~/helpers/hexToRGBA";
+import pSBC from "~/helpers/psbc";
+
+import './styles.issue-card.css';
 
 dayjs.extend(relativeTime);
 
@@ -22,7 +26,13 @@ export default function IssueCard(props: IssueCardProps) {
                     <IssueOpenedIcon className="rw-color-open" size={15} />}
                 <Flex direction="column" gap="1">
                     <Text size="2" weight="bold">
-                        <span dangerouslySetInnerHTML={{ __html: issue.titleHTML }} />
+                        <span className="rw-extra-line-space" dangerouslySetInnerHTML={{ __html: issue.titleHTML }} />
+                        {issue.labels.nodes.map((e) => <Label style={{
+                            marginLeft: 8,
+                            border: `0.5px solid #${e.color}`,
+                            color: `${pSBC(0.65, `#${e.color}`)}`,
+                            backgroundColor: hexToRGB(`#${e.color}`, 0.5)
+                        }} key={`${issue.id}-${e.id}`}>{e.name}</Label>)}
                     </Text>
                     {issue.closed ?
                         <Text size="1" weight="regular" color="muted">

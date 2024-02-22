@@ -2,7 +2,8 @@ import "./styles.label.css";
 
 type LabelProps = {
     className?: string;
-    size: "1" | "2" | "3";
+    size: "1" | "2" | "3"
+    style?: React.CSSProperties
     children?: React.ReactNode
 } & typeof defaultProps;
 
@@ -12,10 +13,10 @@ const defaultProps = {
 };
 
 function Label(props: LabelProps) {
-    const { children, size, className } = props;
+    const { children, size, style, className } = props;
     const styles = `rw-label rw-size-${size} ${className}`;
     return (
-        <span className={styles}>
+        <span style={style} className={styles}>
             {children}
         </span>
     );
