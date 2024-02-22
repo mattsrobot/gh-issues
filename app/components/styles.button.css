@@ -23,6 +23,12 @@
     border-radius: 6px;
 }
 
+/* Muted button */
+
+.rw-button:where(.rw-button-muted) {
+    color: var(--rw-color-muted);
+}
+
 /* Default button */
 
 .rw-button:where(.rw-button-default) {
@@ -31,6 +37,21 @@
 
 .rw-button:where(.rw-button-default):hover {
     background-color: var(--rw-raised-3-color);
+}
+
+/* Ghost button */
+
+.rw-button:where(.rw-button-ghost) {
+    background-color: unset;
+    font-weight: 500;
+}
+
+.rw-button:where(.rw-button-ghost):hover {
+    background-color: var(--rw-raised-3-color);
+}
+
+.rw-button-ghost:where(.rw-button-muted) {
+    font-weight: unset;
 }
 
 /* Outlined button */

@@ -1,4 +1,4 @@
-import { Flex, Card, Text } from "~/components";
+import { Flex, Text } from "~/components";
 import { IssueOpenedIcon } from '@primer/octicons-react';
 
 type Issue = {
@@ -22,13 +22,16 @@ type IssueCardProps = {
 export default function IssueCard(props: IssueCardProps) {
     const { issue } = props;
     return (
-        <Card>
-            <Flex direction="column" gap="1">
-                <Flex gap="1">
-                    <IssueOpenedIcon className="rw-color-open" size={27} /><Text size="3" weight="bold">{issue.title}</Text>
-                </Flex>
-                <Text size="1" weight="light" color="muted">{issue.number}</Text>
+        <Flex direction="column" gap="1" padding="1">
+            <Flex align="center" gap="1">
+                <IssueOpenedIcon className="rw-color-open" size={18} />
+                <Text size="2" weight="bold">
+                    {issue.title}
+                </Text>
             </Flex>
-        </Card>
+            <Text size="1" weight="light" color="muted">
+                #{issue.number}
+            </Text>
+        </Flex>
     );
 }

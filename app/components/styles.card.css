@@ -1,5 +1,6 @@
 .rw-card {
     font-weight: var(--rw-font-weight-regular);
+    overflow: hidden;
 }
 
 /* Sizes */

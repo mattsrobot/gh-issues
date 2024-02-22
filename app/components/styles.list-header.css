@@ -1,0 +1,11 @@
+.rw-list-header {
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    gap: 8px;
+    background-color: var(--rw-raised-1-color);
+}
+
+.rw-list-header:hover {
+    background-color: var(--rw-raised-1-color);
+}

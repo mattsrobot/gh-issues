@@ -1,0 +1,13 @@
+.rw-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+}
+
+.rw-list > :hover {
+    background-color: var(--rw-raised-1-color);
+}
+
+.rw-list > :not(:last-child) {
+    border-bottom: 0.5px solid var(--rw-color-outline);
+ }

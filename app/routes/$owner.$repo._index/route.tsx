@@ -1,12 +1,13 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Flex, Card } from "~/components";
+import { Card, List, ListHeader, Button, Flex } from "~/components";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
-
+import { IssueOpenedIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
 import logger from "~/components/logger";
 import { createTokenAuth } from "@octokit/auth-token";
+import { CenteredContent } from "~/layouts";
 
 export const meta: MetaFunction = () => {
     return [
@@ -71,15 +72,25 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function Index() {
-
     const { data, error } = useLoaderData<typeof loader>();
-
     return (
-        <Flex direction="column">
-            {!!error && <Card>
-                {`Got an error - ${error}`}
-            </Card>}
-            {data?.map((e) => <IssueCard key={e.id} issue={e} />)}
-        </Flex>
+        <CenteredContent>
+            <List>
+                <ListHeader>
+                    <Button variant="ghost">
+                        <Flex direction="row" align="center" gap="1">
+                            <IssueOpenedIcon size={18} /> Open
+                        </Flex>
+                    </Button>
+                    <Button variant="ghost" muted>
+                        Closed
+                    </Button>
+                </ListHeader>
+                {!!error && <Card>
+                    {`Got an error - ${error}`}
+                </Card>}
+                {data?.map((e) => <IssueCard key={e.id} issue={e} />)}
+            </List>
+        </CenteredContent>
     );
 }

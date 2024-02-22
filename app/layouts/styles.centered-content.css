@@ -1,0 +1,10 @@
+.rw-centered-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.rw-centered-content > {
+    max-width: 800px;
+    width: 100%;
+}
