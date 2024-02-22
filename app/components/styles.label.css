@@ -1,0 +1,25 @@
+.rw-label {
+    font-weight: var(--rw-font-weight-bold);
+    overflow: hidden;
+}
+
+/* Sizes */
+
+.rw-label:where(.rw-size-1) {
+    padding: 4px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.rw-label:where(.rw-size-2) {
+    padding: 6px;
+    border-radius: 14px;
+    font-size: var(--rw-font-size-1);
+}
+
+.rw-label:where(.rw-size-3) {
+    padding: 8px;
+    border-radius: 16px;
+    font-size: var(--rw-font-size-2);
+}
+

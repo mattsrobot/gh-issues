@@ -8,13 +8,16 @@ query repository($owner: String!, $name: String!, $states: [IssueState!]) {
         closedIssues: issues(states: CLOSED) {
             totalCount
         }
-        issues(first: 50, filterBy: { states: $states }, orderBy: { field: CREATED_AT, direction: DESC } ) {
+        issues(first: 15, filterBy: { states: $states }, orderBy: { field: CREATED_AT, direction: DESC } ) {
             nodes {
                 id
                 createdAt
                 titleHTML
                 body
                 number
+                closed
+                closedAt
+                stateReason
                 author {
                     login
                 }
@@ -35,11 +38,11 @@ query repository($owner: String!, $name: String!, $states: [IssueState!]) {
 `;
 
 export type IssuesResponse = {
-    repository?: Repository;
+    repository?: Repository
 }
 
 export type Repository = {
-    id: string;
+    id: string
     openIssues: {
         totalCount: number;
     }
@@ -54,20 +57,25 @@ export type IssueConnection = {
 }
 
 export type ActorConnection = {
-    totalCount: number;
+    totalCount: number
     nodes: [Actor]
 }
 
+type IssueStateReason = "REOPENED" | "NOT_PLANNED" | "COMPLETED";
+
 export type Issue = {
     id: string
-    createdAt: string;
+    createdAt: string
     titleHTML: string
     number: number
+    closed: boolean
+    closedAt?: string
+    stateReason?: IssueStateReason
     body?: string
     author: Actor
     assignees: ActorConnection
     commentsCount: {
-        totalCount: number;
+        totalCount: number
     }
 }
 
