@@ -1,3 +1,5 @@
+import './styles.issue-card.css';
+
 import { Flex, Text, Label } from "~/components";
 import { IssueOpenedIcon, IssueClosedIcon, CircleSlashIcon } from '@primer/octicons-react';
 import { Issue } from "~/api/fetchIssues";
@@ -6,8 +8,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { CommentIcon } from '@primer/octicons-react';
 import hexToRGB from "~/helpers/hexToRGBA";
 import pSBC from "~/helpers/psbc";
-
-import './styles.issue-card.css';
 
 dayjs.extend(relativeTime);
 
