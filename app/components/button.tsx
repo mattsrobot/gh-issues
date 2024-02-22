@@ -29,7 +29,6 @@ function Button(props: ButtonProps) {
     );
 }
 
-
 Button.displayName = 'Button';
 Button.defaultProps = defaultProps;
 
