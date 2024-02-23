@@ -46,16 +46,17 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         const logRequest = logger.child({ repo, owner, });
         logRequest.info('🏃 starting fetching issues');
 
-
         if (query.length > 0) {
 
+            const openSearchQuery = `repo:${owner}/${repo} type:issue state:open in:title sort:createdAt-desc ${query}`;
+            const closedSearchQuery = `repo:${owner}/${repo} type:issue state:closed in:title sort:createdAt-desc ${query}`;
             const searchQuery = `repo:${owner}/${repo} type:issue state:${state} in:title sort:createdAt-desc ${query}`;
 
             logRequest.info(`🏃 searching ${searchQuery}`);
 
             const searchData: SearchResponse = await octokit.graphql(searchIssues, {
-                owner,
-                name: repo,
+                openSearchQuery,
+                closedSearchQuery,
                 searchQuery,
             });
 
@@ -126,8 +127,8 @@ export default function Index() {
 
     const [issues, setIssues] = useState(data?.issues?.nodes ?? []);
 
-    const openCount = "";
-    const closedCount = "";
+    const openCount = searchData?.openIssues?.issueCount ?? data?.openIssues?.totalCount;
+    const closedCount = searchData?.closedIssues?.issueCount ?? data?.closedIssues?.totalCount;
 
     const [searchParams, setSearchParams] = useSearchParams();
 

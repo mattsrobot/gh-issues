@@ -1,18 +1,14 @@
-import { Repository, Issue } from "./fetchIssues";
+import { Issue } from "./fetchIssues";
 
 export const searchIssues = `
-query search($owner: String!, $name: String!, $searchQuery: String!) {
-    repository(owner: $owner, name: $name) {
-        id
-        openIssues: issues(states: OPEN) {
-            totalCount
-        }
-        closedIssues: issues(states: CLOSED) {
-            totalCount
-        }
+query search($openSearchQuery: String!, $closedSearchQuery: String!, $searchQuery: String!) {
+    openIssues: search(first:15, type:ISSUE, query: $openSearchQuery) {
+        issueCount
+    }
+    closedIssues: search(first:15, type:ISSUE, query: $closedSearchQuery) {
+        issueCount
     }
     search(first:15, type:ISSUE, query: $searchQuery) {
-        issueCount
         nodes {
           __typename
            ... on Issue {
@@ -52,11 +48,13 @@ query search($owner: String!, $name: String!, $searchQuery: String!) {
 `;
 
 export type SearchResponse = {
-    repository?: Repository
-    search?: Search
-}
-
-export type Search = {
-    issueCount: number
-    nodes: [Issue]
+    openIssues?: {
+        issueCount: number
+    }
+    closedIssues?: {
+        issueCount: number
+    }
+    search?: {
+        nodes: [Issue]
+    }
 }
