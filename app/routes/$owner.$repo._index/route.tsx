@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { List, ListHeader, Button, Flex, Text } from "~/components";
-import { useLoaderData, useSearchParams, useNavigation } from "@remix-run/react";
+import { useLoaderData, useSearchParams, useNavigation, NavLink } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
 import { IssueOpenedIcon, HubotIcon, LogoGithubIcon, TelescopeIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
@@ -198,14 +198,17 @@ export default function Index() {
 
     const blur = navigation.state == "loading" && searchInput.length > 0;
 
+    const localizedOpenCount = (openCount ?? "0").toLocaleString('en-US')
+    const localizedClosedCount = (closedCount ?? "0").toLocaleString('en-US')
+
     return (
         <>
             <TopNavigation>
                 <CenteredContent>
                     <Flex direction="row" gap="3" align="center" padding="3">
-                        <span className="rw-github-logo">
+                        <NavLink className="rw-reset rw-github-logo" to={`/${owner}/${repo}`}>
                             <LogoGithubIcon size={30} />
-                        </span>
+                        </NavLink>
                         <Flex direction="row" align="center">
                             <Button>{owner}</Button>
                             <Text color="muted">/</Text>
@@ -220,11 +223,11 @@ export default function Index() {
                     <ListHeader>
                         <Button variant="ghost" muted={state == "closed"} onClick={() => updateIssueState("open")}>
                             <Flex direction="row" align="center" gap="2">
-                                <IssueOpenedIcon size={15} /> Open {openCount}
+                                <IssueOpenedIcon size={15} /> Open {localizedOpenCount}
                             </Flex>
                         </Button>
                         <Button variant="ghost" muted={state == "open"} onClick={() => updateIssueState("closed")}>
-                            Closed {closedCount}
+                            Closed {localizedClosedCount}
                         </Button>
                     </ListHeader>
                     {issues.length == 0 ?
