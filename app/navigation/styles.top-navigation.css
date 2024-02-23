@@ -1,5 +1,11 @@
 .rw-top-navigation {
     background-color: var(--rw-color-page-muted);
-    margin-bottom: 24px;
+    margin-bottom: 0px;
     border-bottom: 0.5px solid var(--rw-color-outline);
+}
+
+@media (min-width: 800px) {
+    .rw-top-navigation {
+        margin-bottom: 24px;
+    }
 }

@@ -4,7 +4,13 @@
     padding: 0px;
     border: 0.5px solid var(--rw-color-outline);
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 0px;
+}
+
+@media (min-width: 800px) {
+    .rw-list {
+        border-radius: 6px;
+    }
 }
 
 .rw-list > :not(.rw-list-header, .rw-no-results) {
