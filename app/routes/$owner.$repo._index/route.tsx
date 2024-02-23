@@ -142,7 +142,7 @@ export default function Index() {
 
     const [searchInput, setSearchInput] = useState('')
 
-    const debouncedSearchInput = useDebounceCallback(setSearchInput, 200);
+    const debouncedSearchInput = useDebounceCallback(setSearchInput, 80);
 
     useEffect(() => {
         searchParams.set("q", searchInput);
