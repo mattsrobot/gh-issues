@@ -4,8 +4,16 @@
     border-bottom: 0.5px solid var(--rw-color-outline);
 }
 
+.rw-github-logo {
+    display: none;
+}
+
 @media (min-width: 800px) {
     .rw-top-navigation {
         margin-bottom: 24px;
+    }
+
+    .rw-github-logo {
+        display: block;
     }
 }

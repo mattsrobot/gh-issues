@@ -189,7 +189,9 @@ export default function Index() {
             <TopNavigation>
                 <CenteredContent>
                     <Flex direction="row" gap="3" align="center" padding="3">
-                        <LogoGithubIcon size={30} />
+                        <span className="rw-github-logo">
+                            <LogoGithubIcon size={30} />
+                        </span>
                         <Flex direction="row" align="center">
                             <Button>{owner}</Button>
                             <Text color="muted">/</Text>
