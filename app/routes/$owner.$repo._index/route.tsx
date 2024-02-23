@@ -3,7 +3,7 @@ import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { List, ListHeader, Button, Flex, Text } from "~/components";
 import { useLoaderData, useSearchParams, useNavigation, NavLink } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
-import { IssueOpenedIcon, HubotIcon, LogoGithubIcon, TelescopeIcon } from '@primer/octicons-react';
+import { IssueOpenedIcon, HubotIcon, LogoGithubIcon, TelescopeIcon, CheckIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
 import logger from "~/components/logger";
 import { createTokenAuth } from "@octokit/auth-token";
@@ -228,7 +228,7 @@ export default function Index() {
                             </Flex>
                         </Button>
                         <Button variant="ghost" muted={state == "open"} onClick={() => updateIssueState("closed")}>
-                            Closed {localizedClosedCount}
+                            <CheckIcon /> Closed {localizedClosedCount}
                         </Button>
                     </ListHeader>
                     {issues.length == 0 ?
