@@ -3,7 +3,7 @@ import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { List, ListHeader, Button, Flex, Text } from "~/components";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
-import { IssueOpenedIcon, HubotIcon } from '@primer/octicons-react';
+import { IssueOpenedIcon, HubotIcon, LogoGithubIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
 import logger from "~/components/logger";
 import { createTokenAuth } from "@octokit/auth-token";
@@ -189,6 +189,7 @@ export default function Index() {
             <TopNavigation>
                 <CenteredContent>
                     <Flex direction="row" gap="3" align="center" padding="3">
+                        <LogoGithubIcon size={30} />
                         <Flex direction="row" align="center">
                             <Button>{owner}</Button>
                             <Text color="muted">/</Text>
