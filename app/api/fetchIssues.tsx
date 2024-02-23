@@ -67,7 +67,6 @@ export type IssueConnection = {
 type IssueStateReason = "REOPENED" | "NOT_PLANNED" | "COMPLETED";
 
 export type Issue = {
-    __typename?: string
     id: string
     createdAt: string
     titleHTML: string

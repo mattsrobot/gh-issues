@@ -30,6 +30,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     const repo = params.repo ?? "";
     const owner = params.owner ?? "";
 
+    let openCount, closedCount;
+
     try {
         const auth = createTokenAuth(process.env.GITHUB_AUTH_TOKEN!);
 
@@ -49,23 +51,33 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         if (query.length > 0) {
 
             const template = `repo:${owner}/${repo} type:issue in:title sort:createdAt-desc`;
-            const openSearchQuery = `${template} state:open ${query}`;
-            const closedSearchQuery = `${template} state:closed ${query}`;
             const searchQuery = `${template} state:${state} ${query}`;
+            const alternativeSearchQuery = `${template} state:${state == "open" ? "closed" : "open"} ${query}`;
 
             logRequest.info(`🏃 searching`);
 
             const searchData: SearchResponse = await octokit.graphql(searchIssues, {
-                openSearchQuery,
-                closedSearchQuery,
                 searchQuery,
+                alternativeSearchQuery,
             });
 
             logRequest.info('✅ completed searching issues');
 
+            let openCount, closedCount;
+
+            if (searchQuery.includes("state:open")) {
+                openCount = searchData?.search?.issueCount
+                closedCount = searchData.alternativeCount?.issueCount
+            } else {
+                openCount = searchData.alternativeCount?.issueCount
+                closedCount = searchData?.search?.issueCount
+            }
+
             return json({
                 owner,
                 repo,
+                openCount,
+                closedCount,
                 data: null,
                 searchData,
                 error: null
@@ -78,13 +90,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
                 states: [state.toUpperCase()]
             });
 
-            const data = response.repository
+            const data = response.repository;
 
             logRequest.info('✅ completed fetching issues');
+
+
+            openCount = data?.openIssues?.totalCount ?? "";
+            closedCount = data?.closedIssues?.totalCount ?? "";
 
             return json({
                 owner,
                 repo,
+                openCount,
+                closedCount,
                 data,
                 searchData: null,
                 error: null
@@ -115,6 +133,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         return json({
             owner,
             repo,
+            openCount,
+            closedCount,
             data: null,
             searchData: null,
             error: message
@@ -124,12 +144,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export default function Index() {
 
-    const { data, searchData, error, repo, owner } = useLoaderData<typeof loader>();
+    const { data, searchData, error, repo, owner, openCount, closedCount } = useLoaderData<typeof loader>();
 
     const [issues, setIssues] = useState(data?.issues?.nodes ?? []);
-
-    const openCount = searchData?.openIssues?.issueCount ?? data?.openIssues?.totalCount;
-    const closedCount = searchData?.closedIssues?.issueCount ?? data?.closedIssues?.totalCount;
 
     const [searchParams, setSearchParams] = useSearchParams();
 

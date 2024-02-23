@@ -1,16 +1,13 @@
 import { Issue } from "./fetchIssues";
 
 export const searchIssues = `
-query search($openSearchQuery: String!, $closedSearchQuery: String!, $searchQuery: String!) {
-    openIssues: search(first:15, type:ISSUE, query: $openSearchQuery) {
-        issueCount
-    }
-    closedIssues: search(first:15, type:ISSUE, query: $closedSearchQuery) {
+query search($searchQuery: String!, $alternativeSearchQuery: String!) {
+    alternativeCount: search(type:ISSUE, query: $alternativeSearchQuery) {
         issueCount
     }
     search(first:15, type:ISSUE, query: $searchQuery) {
+        issueCount
         nodes {
-          __typename
            ... on Issue {
                 id
                 createdAt
@@ -26,16 +23,16 @@ query search($openSearchQuery: String!, $closedSearchQuery: String!, $searchQuer
                 assignees(first: 5) {
                     totalCount
                     nodes {
-                    login
-                    avatarUrl(size: 20)
+                        login
+                        avatarUrl(size: 20)
                     }
                 }
                 labels(first: 10) {
                     totalCount
                     nodes {
-                    id
-                    name
-                    color
+                        id
+                        name
+                        color
                     }
                 }
                 commentsCount: comments {
@@ -48,13 +45,11 @@ query search($openSearchQuery: String!, $closedSearchQuery: String!, $searchQuer
 `;
 
 export type SearchResponse = {
-    openIssues?: {
-        issueCount: number
-    }
-    closedIssues?: {
-        issueCount: number
-    }
     search?: {
+        issueCount: number
         nodes: [Issue]
+    }
+    alternativeCount?: {
+        issueCount: number
     }
 }
