@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { List, ListHeader, Button, Flex, Text } from "~/components";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData, useSearchParams, useNavigation } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
 import { IssueOpenedIcon, HubotIcon, LogoGithubIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
@@ -150,6 +150,8 @@ export default function Index() {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
+    const navigation = useNavigation();
+
     const state = searchParams.get("state") ?? "open";
 
     const updateIssueState = useCallback((s: IssueState) => {
@@ -183,6 +185,8 @@ export default function Index() {
             setIssues(searchData.search?.nodes ?? []);
         }
     }, [searchData]);
+
+    const blur = navigation.state == "loading" && searchInput.length > 0;
 
     return (
         <>
@@ -229,7 +233,7 @@ export default function Index() {
                                 </>
                             }
                         </Flex> :
-                        issues.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} />)}
+                        issues.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} blur={blur} />)}
                 </List>
             </CenteredContent>
         </>

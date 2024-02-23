@@ -104,3 +104,29 @@
 .rw-text:where(.rw-text-weight-extra-bold) {
     font-weight: var(--rw-font-weight-extra-bold);
 }
+
+/* blur */
+
+.rw-text:where(.rw-text-blur) {
+    animation: blur-loading 2s linear infinite alternate;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+    color: transparent !important;
+    border: none !important;
+}
+
+@keyframes blur-loading {
+    0% {
+        background-color: hsl(218, 11.6%, 18.6%);;
+    }
+    100% {
+        background-color: hsl(218, 9.9%, 21.8%);
+    }
+}
+
+.rw-text:where(.rw-text-blur) * {
+    color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    background-color: transparent !important;
+}
