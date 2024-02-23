@@ -206,7 +206,7 @@ export default function Index() {
                 </CenteredContent>
             </TopNavigation>
             <CenteredContent>
-                <List>
+                <List blur={blur}>
                     <ListHeader>
                         <Button variant="ghost" muted={state == "closed"} onClick={() => updateIssueState("open")}>
                             <Flex direction="row" align="center" gap="2">

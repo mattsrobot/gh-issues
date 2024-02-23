@@ -13,12 +13,12 @@
     }
 }
 
-.rw-list > :not(.rw-list-header, .rw-no-results) {
+.rw-list:not(.rw-list-blur) > :not(.rw-list-header, .rw-no-results) {
     cursor: pointer;
 }
 
 @media (hover: hover) {
-    .rw-list > :not(.rw-list-header, .rw-no-results):hover {
+    .rw-list:not(.rw-list-blur) > :not(.rw-list-header, .rw-no-results):hover {
         background-color: var(--rw-raised-1-color);
     }
 }
