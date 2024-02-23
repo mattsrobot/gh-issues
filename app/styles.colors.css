@@ -36,10 +36,14 @@
     color: var(--rw-color-muted);
 }
 
-.rw-accent-hover:hover {
-    color: var(--rw-color-accent) !important;
+@media (hover: hover) {
+    .rw-accent-hover:hover {
+        color: var(--rw-color-accent) !important;
+    }
+
+    .rw-accent-hover:hover > * {
+        color: var(--rw-color-accent) !important;
+    }
 }
 
-.rw-accent-hover:hover > * {
-    color: var(--rw-color-accent) !important;
-}
+

@@ -11,8 +11,10 @@
     cursor: pointer;
 }
 
-.rw-list > :not(.rw-list-header, .rw-no-results):hover {
-    background-color: var(--rw-raised-1-color);
+@media (hover: hover) {
+    .rw-list > :not(.rw-list-header, .rw-no-results):hover {
+        background-color: var(--rw-raised-1-color);
+    }
 }
 
 .rw-list > :not(:last-child) {

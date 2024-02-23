@@ -31,8 +31,10 @@
 
 /* Default button */
 
-.rw-button:where(.rw-button-default):hover {
-    background-color: var(--rw-raised-3-color);
+@media (hover: hover) {
+    .rw-button:where(.rw-button-default):hover {
+        background-color: var(--rw-raised-3-color);
+    }
 }
 
 /* Ghost button */
@@ -44,9 +46,11 @@
     font-weight: 500;
 }
 
-.rw-button:where(.rw-button-ghost):hover {
-    background-color: unset;
-    color: var(--rw-color-text);
+@media (hover: hover) {
+    .rw-button:where(.rw-button-ghost):hover {
+        background-color: unset;
+        color: var(--rw-color-text);
+    }
 }
 
 .rw-button-ghost:where(.rw-button-muted) {
@@ -59,8 +63,9 @@
     border: 1px solid var(--rw-color-outline);
 }
 
-.rw-button:where(.rw-button-outlined):hover {
-    background-color: var(--rw-raised-3-color);
+@media (hover: hover) {
+    .rw-button:where(.rw-button-outlined):hover {
+        background-color: var(--rw-raised-3-color);
+    }
 }
-
 

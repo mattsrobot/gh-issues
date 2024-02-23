@@ -3,7 +3,7 @@ import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { List, ListHeader, Button, Flex, Text } from "~/components";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
-import { IssueOpenedIcon } from '@primer/octicons-react';
+import { IssueOpenedIcon, HubotIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
 import logger from "~/components/logger";
 import { createTokenAuth } from "@octokit/auth-token";
@@ -211,10 +211,20 @@ export default function Index() {
                         </Button>
                     </ListHeader>
                     {issues.length == 0 ?
-                        <Flex className="rw-no-results" padding="5" direction="column" align="center">
+                        <Flex className="rw-no-results" padding="5" direction="column" align="center" gap="4">
                             {!!error ?
-                                <Text color="danger">{error}</Text> :
-                                <Text color="muted" weight="bold">No results</Text>}
+                                <>
+                                    <img src="/thundering-unicorn.webp" width={150} alt="thundering unicorns" />
+                                    <Text size="4" weight="extra-bold">Oops...</Text>
+                                    <Text size="1" color="muted">{error}</Text>
+                                </>
+                                :
+                                <>
+                                    <HubotIcon size={50} />
+                                    <Text size="4" weight="extra-bold">No results :(</Text>
+                                    <Text size="1" color="muted" >Try searching for something else</Text>
+                                </>
+                            }
                         </Flex> :
                         issues.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} />)}
                 </List>
