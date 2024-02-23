@@ -3,7 +3,7 @@ import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { List, ListHeader, Button, Flex, Text } from "~/components";
 import { useLoaderData, useSearchParams, useNavigation } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
-import { IssueOpenedIcon, HubotIcon, LogoGithubIcon } from '@primer/octicons-react';
+import { IssueOpenedIcon, HubotIcon, LogoGithubIcon, TelescopeIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
 import logger from "~/components/logger";
 import { createTokenAuth } from "@octokit/auth-token";
@@ -13,6 +13,7 @@ import { searchIssues, SearchResponse } from "~/api/searchIssues";
 import { useCallback, useEffect, useState } from "react";
 import { TopNavigation, SearchTextField } from "~/navigation";
 import { useDebounceCallback } from "~/helpers/use-debounce";
+import phrases from "~/helpers/funny-phrases";
 
 type IssueState = "open" | "closed";
 
@@ -161,12 +162,21 @@ export default function Index() {
         });
     }, [searchParams]);
 
-    const [searchInput, setSearchInput] = useState('')
+    const [funnyPhrase, setFunnyPhrase] = useState(phrases[Math.floor((Math.random() * phrases.length))]);
+    const debouncedFunnyPhrase = useDebounceCallback(setFunnyPhrase, 1000);
 
+
+    const [searchInput, setSearchInput] = useState(searchParams.get("q") ?? "");
     const debouncedSearchInput = useDebounceCallback(setSearchInput, 80);
 
     useEffect(() => {
-        searchParams.set("q", searchInput);
+        if (searchInput.length > 0) {
+            searchParams.set("q", searchInput);
+        } else {
+            searchParams.delete("q");
+        }
+
+        debouncedFunnyPhrase(phrases[Math.floor((Math.random() * phrases.length))]);
 
         setSearchParams(searchParams, {
             preventScrollReset: true,
@@ -201,7 +211,7 @@ export default function Index() {
                             <Text color="muted">/</Text>
                             <Button>{repo}</Button>
                         </Flex>
-                        <SearchTextField placeholder="Search" onChange={debouncedSearchInput} />
+                        <SearchTextField placeholder="Search" defaultValue={searchInput} onChange={debouncedSearchInput} />
                     </Flex>
                 </CenteredContent>
             </TopNavigation>
@@ -219,18 +229,25 @@ export default function Index() {
                     </ListHeader>
                     {issues.length == 0 ?
                         <Flex className="rw-no-results" padding="5" direction="column" align="center" gap="4">
-                            {!!error ?
+                            {blur ?
                                 <>
-                                    <img src="/thundering-unicorn.webp" width={150} alt="thundering unicorns" />
-                                    <Text size="4" weight="extra-bold">Oops...</Text>
-                                    <Text size="1" color="muted">{error}</Text>
+                                    <TelescopeIcon size={50} />
+                                    <Text size="4" weight="extra-bold">Searching...</Text>
+                                    <Text size="1" color="muted">{funnyPhrase}</Text>
                                 </>
                                 :
-                                <>
-                                    <HubotIcon size={50} />
-                                    <Text size="4" weight="extra-bold">No results :(</Text>
-                                    <Text size="1" color="muted" >Try searching for something else</Text>
-                                </>
+                                !!error ?
+                                    <>
+                                        <img src="/thundering-unicorn.webp" width={150} alt="thundering unicorns" />
+                                        <Text size="4" weight="extra-bold">Oops...</Text>
+                                        <Text size="1" color="muted">{error}</Text>
+                                    </>
+                                    :
+                                    <>
+                                        <HubotIcon size={50} />
+                                        <Text size="4" weight="extra-bold">No results :(</Text>
+                                        <Text size="1" color="muted" >Try searching for something else</Text>
+                                    </>
                             }
                         </Flex> :
                         issues.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} blur={blur} />)}
