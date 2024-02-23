@@ -20,7 +20,20 @@
 
 .rw-search-textfield-container {
     position: relative;
-    width: 100%;
+    display: none;
+}
+
+@media (min-width: 500px) {
+    .rw-search-textfield-container {
+        display: block;
+    }
+}
+
+@media (min-width: 800px) {
+    .rw-search-textfield-container {
+        max-width: 350px;
+        width: 100%;
+    }
 }
 
 .rw-search-icon {

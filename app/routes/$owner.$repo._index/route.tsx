@@ -207,13 +207,14 @@ export default function Index() {
                 <CenteredContent>
                     <Flex direction="row" gap="3" align="center" padding="3">
                         <NavLink className="rw-reset rw-github-logo" to={`/${owner}/${repo}`}>
-                            <LogoGithubIcon size={30} />
+                            <LogoGithubIcon size={25} />
                         </NavLink>
                         <Flex direction="row" align="center">
                             <Button>{owner}</Button>
                             <Text color="muted">/</Text>
                             <Button>{repo}</Button>
                         </Flex>
+                        <div style={{ flexGrow: 1 }} />
                         <SearchTextField placeholder="Search" defaultValue={searchInput} onChange={debouncedSearchInput} />
                     </Flex>
                 </CenteredContent>

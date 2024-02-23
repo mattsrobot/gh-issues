@@ -5,15 +5,11 @@
 }
 
 .rw-github-logo {
-    display: none;
+    display: block;
 }
 
 @media (min-width: 800px) {
     .rw-top-navigation {
         margin-bottom: 24px;
-    }
-
-    .rw-github-logo {
-        display: block;
     }
 }
