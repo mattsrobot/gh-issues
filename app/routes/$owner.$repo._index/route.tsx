@@ -48,11 +48,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
         if (query.length > 0) {
 
-            const openSearchQuery = `repo:${owner}/${repo} type:issue state:open in:title sort:createdAt-desc ${query}`;
-            const closedSearchQuery = `repo:${owner}/${repo} type:issue state:closed in:title sort:createdAt-desc ${query}`;
-            const searchQuery = `repo:${owner}/${repo} type:issue state:${state} in:title sort:createdAt-desc ${query}`;
+            const template = `repo:${owner}/${repo} type:issue in:title sort:createdAt-desc`;
+            const openSearchQuery = `${template} state:open ${query}`;
+            const closedSearchQuery = `${template} state:closed ${query}`;
+            const searchQuery = `${template} state:${state} ${query}`;
 
-            logRequest.info(`🏃 searching ${searchQuery}`);
+            logRequest.info(`🏃 searching`);
 
             const searchData: SearchResponse = await octokit.graphql(searchIssues, {
                 openSearchQuery,
