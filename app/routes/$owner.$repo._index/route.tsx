@@ -271,7 +271,7 @@ export default function Index() {
             <TopNavigation>
                 <CenteredContent>
                     <Flex direction="row" gap="3" align="center" padding="3">
-                        <NavLink className="rw-reset rw-github-logo" to={`/${owner}/${repo}`}>
+                        <NavLink className="rw-reset rw-github-logo" to={`/${owner}/${repo}`} aria-label="GitHub">
                             <LogoGithubIcon size={25} />
                         </NavLink>
                         <Flex direction="row" align="center">
