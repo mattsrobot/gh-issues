@@ -5,6 +5,6 @@
 }
 
 .rw-centered-content > * {
-    max-width: 800px;
+    max-width: var(--rw-content-width);
     width: 100%;
 }
