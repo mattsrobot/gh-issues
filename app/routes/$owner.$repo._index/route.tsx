@@ -235,8 +235,6 @@ export default function Index() {
             return;
         }
 
-        console.log("search input changed");
-
         if (searchInput.length > 0) {
             searchParams.set("q", searchInput);
         } else {
