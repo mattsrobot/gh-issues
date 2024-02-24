@@ -50,15 +50,15 @@ export default function IssueCard(props: IssueCardProps) {
             </Flex>
             <Flex direction="row" align="center" gap="4">
                 <Flex className="rw-accent-hover" direction="row" align="center" gap="1" shrink>
-                    {issue.crossReferenced.filteredCount > 0 && <GitPullRequestIcon className="rw-color-muted" size={15} />}
+                    {issue.crossReferenced.filteredCount > 0 && !blur && <GitPullRequestIcon className="rw-color-muted" size={15} />}
                 </Flex>
                 <Flex className="rw-accent-hover" direction="row" align="center" gap="1" shrink>
-                    {issue.assignees.nodes.map((e) => <img alt={e.login} className="rw-smol-avatar" key={`${issue.id}-${e.login}`} src={e.avatarUrl} />)}
+                    {!blur && issue.assignees.nodes.map((e) => <img alt={e.login} className="rw-smol-avatar" key={`${issue.id}-${e.login}`} src={e.avatarUrl} />)}
                 </Flex>
                 <Flex className="rw-accent-hover" direction="row" align="end" gap="1" shrink>
-                    {issue.commentsCount.totalCount > 0 && <>
+                    {issue.commentsCount.totalCount > 0 && !blur && <>
                         <CommentIcon className="rw-color-muted" size={15} />
-                        {!blur && <Text size="1" color="muted">{issue.commentsCount.totalCount}</Text>}
+                        <Text size="1" color="muted">{issue.commentsCount.totalCount}</Text>
                     </>}
                 </Flex>
             </Flex>
