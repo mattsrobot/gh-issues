@@ -1,7 +1,7 @@
 import './styles.issue-card.css';
 
 import { Flex, Text, Label } from "~/components";
-import { IssueOpenedIcon, IssueClosedIcon, CircleSlashIcon } from '@primer/octicons-react';
+import { IssueOpenedIcon, IssueClosedIcon, CircleSlashIcon, GitPullRequestIcon } from '@primer/octicons-react';
 import { Issue } from "~/api/fetchIssues";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -49,13 +49,18 @@ export default function IssueCard(props: IssueCardProps) {
                 </Flex>
             </Flex>
             <Flex direction="row" align="center" gap="4">
-                {issue.assignees.totalCount > 0 && <Flex className="rw-accent-hover" direction="row" align="center" gap="1" shrink>
+                <Flex className="rw-accent-hover" direction="row" align="center" gap="1" shrink>
+                    {issue.crossReferenced.filteredCount > 0 && <GitPullRequestIcon className="rw-color-muted" size={15} />}
+                </Flex>
+                <Flex className="rw-accent-hover" direction="row" align="center" gap="1" shrink>
                     {issue.assignees.nodes.map((e) => <img alt={e.login} className="rw-smol-avatar" key={`${issue.id}-${e.login}`} src={e.avatarUrl} />)}
-                </Flex>}
-                {issue.commentsCount.totalCount > 0 && <Flex className="rw-accent-hover" direction="row" align="end" gap="1" shrink>
-                    <CommentIcon className="rw-color-muted" size={15} />
-                    {!blur && <Text size="1" color="muted">{issue.commentsCount.totalCount}</Text>}
-                </Flex>}
+                </Flex>
+                <Flex className="rw-accent-hover" direction="row" align="end" gap="1" shrink>
+                    {issue.commentsCount.totalCount > 0 && <>
+                        <CommentIcon className="rw-color-muted" size={15} />
+                        {!blur && <Text size="1" color="muted">{issue.commentsCount.totalCount}</Text>}
+                    </>}
+                </Flex>
             </Flex>
         </Flex>
     );

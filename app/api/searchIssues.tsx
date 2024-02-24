@@ -44,6 +44,9 @@ query search($searchQuery: String!, $alternativeSearchQuery: String!, $first: In
                 commentsCount: comments {
                     totalCount
                 }
+                crossReferenced: timelineItems(first: 1, itemTypes: CROSS_REFERENCED_EVENT) {
+                    filteredCount
+                }
           }
         }
     }

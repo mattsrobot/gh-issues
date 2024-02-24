@@ -45,6 +45,9 @@ query repository($owner: String!, $name: String!, $states: [IssueState!], $first
                 commentsCount: comments {
                     totalCount
                 }
+                crossReferenced: timelineItems(first: 1, itemTypes: CROSS_REFERENCED_EVENT) {
+                    filteredCount
+                }
             }
         }
     }
@@ -94,6 +97,9 @@ export type Issue = {
     assignees: ActorConnection
     commentsCount: {
         totalCount: number
+    }
+    crossReferenced: {
+        filteredCount: number
     }
 }
 
