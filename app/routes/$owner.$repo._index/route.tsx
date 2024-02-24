@@ -326,8 +326,8 @@ export default function Index() {
                             {<footer className="rw-list-footer">
                                 <Flex padding="2" direction="column" align="center">
                                     <Flex direction="row" gap="2">
-                                        <Button disabled={!hasPreviousPage} onClick={goPrevious}><ChevronLeftIcon />Previous</Button>
-                                        <Button disabled={!hasNextPage} onClick={goNext}>Next <ChevronRightIcon /></Button>
+                                        <Button disabled={blur || !hasPreviousPage} onClick={goPrevious}><ChevronLeftIcon />Previous</Button>
+                                        <Button disabled={blur || !hasNextPage} onClick={goNext}>Next <ChevronRightIcon /></Button>
                                     </Flex>
                                 </Flex>
                             </footer>}
