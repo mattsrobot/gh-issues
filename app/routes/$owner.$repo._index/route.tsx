@@ -188,7 +188,9 @@ export default function Index() {
     const [funnyPhrase, setFunnyPhrase] = useState(randomPhrase());
     const debouncedFunnyPhrase = useDebounceCallback(setFunnyPhrase, 1000);
 
-    const [searchInput, setSearchInput] = useState(searchParams.get("q") ?? "");
+    const q = searchParams.get("q") ?? "";
+
+    const [searchInput, setSearchInput] = useState(q ?? "");
     const debouncedSearchInput = useDebounceCallback(setSearchInput, 80);
 
     const updateCursor = useCallback((cursor: string | undefined, direction: string | undefined) => {
@@ -229,6 +231,12 @@ export default function Index() {
     }, [searchParams]);
 
     useEffect(() => {
+        if (q == searchInput) {
+            return;
+        }
+
+        console.log("search input changed");
+
         if (searchInput.length > 0) {
             searchParams.set("q", searchInput);
         } else {
@@ -241,7 +249,7 @@ export default function Index() {
             preventScrollReset: true,
         });
 
-    }, [searchInput]);
+    }, [searchInput, q]);
 
     useEffect(() => {
         if (!!data) {
@@ -315,12 +323,14 @@ export default function Index() {
                         </Flex> :
                         <>
                             {issues.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} blur={blur} />)}
-                            {<Flex className="rw-list-footer" padding="2" direction="column" align="center">
-                                <Flex direction="row" gap="2">
-                                    <Button disabled={!hasPreviousPage} onClick={goPrevious}><ChevronLeftIcon />Previous</Button>
-                                    <Button disabled={!hasNextPage} onClick={goNext}>Next <ChevronRightIcon /></Button>
+                            {<footer className="rw-list-footer">
+                                <Flex padding="2" direction="column" align="center">
+                                    <Flex direction="row" gap="2">
+                                        <Button disabled={!hasPreviousPage} onClick={goPrevious}><ChevronLeftIcon />Previous</Button>
+                                        <Button disabled={!hasNextPage} onClick={goNext}>Next <ChevronRightIcon /></Button>
+                                    </Flex>
                                 </Flex>
-                            </Flex>}
+                            </footer>}
                         </>}
                 </List>
             </CenteredContent>

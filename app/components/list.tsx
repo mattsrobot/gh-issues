@@ -22,9 +22,9 @@ function List(props: ListProps) {
     styles = `${styles} ${className}`;
 
     return (
-        <section className={styles}>
+        <main className={styles}>
             {children}
-        </section>
+        </main>
     );
 }
 
