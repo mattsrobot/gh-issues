@@ -250,13 +250,13 @@ export default function Index() {
     }, [searchInput, q]);
 
     useEffect(() => {
-        if (!!data) {
+        if (data) {
             setIssues(data.issues?.nodes ?? []);
         }
     }, [data]);
 
     useEffect(() => {
-        if (!!searchData) {
+        if (searchData) {
             setIssues(searchData.search?.nodes ?? []);
         }
     }, [searchData]);
