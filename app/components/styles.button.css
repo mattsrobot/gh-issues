@@ -29,6 +29,13 @@
     color: var(--rw-color-muted);
 }
 
+/* Disabled button */
+
+.rw-button:where(.rw-button-disabled) {
+    color: var(--rw-color-muted);
+    pointer-events: none;
+}
+
 /* Default button */
 
 @media (hover: hover) {

@@ -1,12 +1,18 @@
-import { Issue } from "./fetchIssues";
+import { Issue, PageInfo } from "./fetchIssues";
 
 export const searchIssues = `
-query search($searchQuery: String!, $alternativeSearchQuery: String!) {
+query search($searchQuery: String!, $alternativeSearchQuery: String!, $first: Int, $last: Int, $after: String, $before: String) {
     alternativeCount: search(type:ISSUE, query: $alternativeSearchQuery) {
         issueCount
     }
-    search(first:15, type:ISSUE, query: $searchQuery) {
+    search(first: $first, last: $last, after: $after, before: $before, type:ISSUE, query: $searchQuery) {
         issueCount
+        pageInfo {
+            startCursor
+            endCursor
+            hasNextPage
+            hasPreviousPage
+        }
         nodes {
            ... on Issue {
                 id
@@ -46,10 +52,11 @@ query search($searchQuery: String!, $alternativeSearchQuery: String!) {
 
 export type SearchResponse = {
     search?: {
-        issueCount: number
+        issueCount: string
         nodes: [Issue]
+        pageInfo: PageInfo
     }
     alternativeCount?: {
-        issueCount: number
+        issueCount: string
     }
 }

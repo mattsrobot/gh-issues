@@ -1,5 +1,5 @@
 export const fetchIssuesQuery = `
-query repository($owner: String!, $name: String!, $states: [IssueState!]) {
+query repository($owner: String!, $name: String!, $states: [IssueState!], $first: Int, $last: Int, $after: String, $before: String) {
     repository(owner: $owner, name: $name) {
         id
         openIssues: issues(states: OPEN) {
@@ -8,7 +8,13 @@ query repository($owner: String!, $name: String!, $states: [IssueState!]) {
         closedIssues: issues(states: CLOSED) {
             totalCount
         }
-        issues(first: 15, filterBy: { states: $states }, orderBy: { field: CREATED_AT, direction: DESC } ) {
+        issues(first: $first, last: $last, after: $after, before: $before, filterBy: { states: $states }, orderBy: { field: CREATED_AT, direction: DESC } ) {
+            pageInfo {
+                startCursor
+                endCursor
+                hasNextPage
+                hasPreviousPage
+            }
             nodes {
                 id
                 createdAt
@@ -52,16 +58,24 @@ export type IssuesResponse = {
 export type Repository = {
     id: string
     openIssues: {
-        totalCount: number;
+        totalCount: string;
     }
     closedIssues: {
-        totalCount: number;
+        totalCount: string;
     }
     issues?: IssueConnection;
 }
 
+export type PageInfo = {
+    startCursor?: string
+    endCursor?: string
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+}
+
 export type IssueConnection = {
     nodes: [Issue]
+    pageInfo: PageInfo
 }
 
 type IssueStateReason = "REOPENED" | "NOT_PLANNED" | "COMPLETED";

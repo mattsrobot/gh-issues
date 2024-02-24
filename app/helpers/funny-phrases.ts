@@ -17,4 +17,6 @@ const phrases = [
   "Synthesizing Gravity",
 ];
 
+export const randomPhrase = () => phrases[Math.floor((Math.random() * phrases.length))];
+
 export default phrases;

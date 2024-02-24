@@ -3,17 +3,17 @@ import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { List, ListHeader, Button, Flex, Text } from "~/components";
 import { useLoaderData, useSearchParams, useNavigation, NavLink } from "@remix-run/react";
 import { RequestError, Octokit } from "octokit";
-import { IssueOpenedIcon, HubotIcon, LogoGithubIcon, TelescopeIcon, CheckIcon } from '@primer/octicons-react';
+import { IssueOpenedIcon, HubotIcon, LogoGithubIcon, TelescopeIcon, CheckIcon, ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import IssueCard from "./issue-card";
 import logger from "~/components/logger";
 import { createTokenAuth } from "@octokit/auth-token";
 import { CenteredContent } from "~/layouts";
-import { fetchIssuesQuery, IssuesResponse } from "~/api/fetchIssues";
+import { fetchIssuesQuery, IssuesResponse, Repository } from "~/api/fetchIssues";
 import { searchIssues, SearchResponse } from "~/api/searchIssues";
 import { useCallback, useEffect, useState } from "react";
 import { TopNavigation, SearchTextField } from "~/navigation";
 import { useDebounceCallback } from "~/helpers/use-debounce";
-import phrases from "~/helpers/funny-phrases";
+import { randomPhrase } from "~/helpers/funny-phrases";
 
 type IssueState = "open" | "closed";
 
@@ -31,7 +31,17 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     const repo = params.repo ?? "";
     const owner = params.owner ?? "";
 
-    let openCount, closedCount;
+    let openCount: string | undefined,
+        closedCount: string | undefined,
+        startCursor: string | undefined,
+        endCursor: string | undefined,
+        error: string | undefined;
+
+    let hasNextPage = false;
+    let hasPreviousPage = false;
+
+    let data: Repository | undefined
+    let searchData: SearchResponse | undefined
 
     try {
         const auth = createTokenAuth(process.env.GITHUB_AUTH_TOKEN!);
@@ -46,8 +56,24 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         const state = url.searchParams.get("state") ?? "open";
         const query = url.searchParams.get("q") ?? "";
 
+        const cursor = url.searchParams.get("cursor") ?? undefined;
+        const direction = url.searchParams.get("direction") ?? "forward";
+
         const logRequest = logger.child({ repo, owner, });
         logRequest.info('🏃 starting fetching issues');
+
+        let first: number | undefined
+        let last: number | undefined
+        let before: string | undefined
+        let after: string | undefined
+
+        if (direction == "forward") {
+            first = 25;
+            after = cursor;
+        } else {
+            last = 25;
+            before = cursor;
+        }
 
         if (query.length > 0) {
 
@@ -57,65 +83,63 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
             logRequest.info(`🏃 searching`);
 
-            const searchData: SearchResponse = await octokit.graphql(searchIssues, {
+            const params = {
                 searchQuery,
                 alternativeSearchQuery,
-            });
-
-            logRequest.info('✅ completed searching issues');
-
-            let openCount, closedCount;
-
-            if (searchQuery.includes("state:open")) {
-                openCount = searchData?.search?.issueCount
-                closedCount = searchData.alternativeCount?.issueCount
-            } else {
-                openCount = searchData.alternativeCount?.issueCount
-                closedCount = searchData?.search?.issueCount
+                first,
+                last,
+                before,
+                after,
             }
 
-            return json({
-                owner,
-                repo,
-                openCount,
-                closedCount,
-                data: null,
-                searchData,
-                error: null
-            });
+            searchData = await octokit.graphql(searchIssues, params);
 
+            endCursor = searchData?.search?.pageInfo?.endCursor;
+            startCursor = searchData?.search?.pageInfo?.startCursor;
+            hasNextPage = searchData?.search?.pageInfo?.hasNextPage ?? false;
+            hasPreviousPage = searchData?.search?.pageInfo?.hasPreviousPage ?? false;;
+
+            if (searchQuery.includes("state:open")) {
+                openCount = searchData?.search?.issueCount ?? "";
+                closedCount = searchData?.alternativeCount?.issueCount ?? "";
+            } else {
+                openCount = searchData?.alternativeCount?.issueCount ?? "";
+                closedCount = searchData?.search?.issueCount ?? "";
+            }
+
+            logRequest.info('✅ completed searching issues');
         } else {
-            const response: IssuesResponse = await octokit.graphql(fetchIssuesQuery, {
+
+            const params = {
                 owner,
                 name: repo,
-                states: [state.toUpperCase()]
-            });
+                states: [state.toUpperCase()],
+                first,
+                last,
+                before,
+                after,
+            }
 
-            const data = response.repository;
+            const response: IssuesResponse = await octokit.graphql(fetchIssuesQuery, params);
 
-            logRequest.info('✅ completed fetching issues');
-
+            data = response.repository;
 
             openCount = data?.openIssues?.totalCount ?? "";
             closedCount = data?.closedIssues?.totalCount ?? "";
 
-            return json({
-                owner,
-                repo,
-                openCount,
-                closedCount,
-                data,
-                searchData: null,
-                error: null
-            });
-        }
+            endCursor = data?.issues?.pageInfo?.endCursor;
+            startCursor = data?.issues?.pageInfo?.startCursor;
+            hasNextPage = data?.issues?.pageInfo?.hasNextPage ?? false;
+            hasPreviousPage = data?.issues?.pageInfo?.hasPreviousPage ?? false;;
 
-    } catch (error) {
+            logRequest.info('✅ completed fetching issues');
+        }
+    } catch (err) {
         let status, message;
 
-        if (error instanceof RequestError) {
-            status = error.status;
-            message = error.message;
+        if (err instanceof RequestError) {
+            status = err.status;
+            message = err.message;
         } else {
             status = 500;
             message = "Unhandled error";
@@ -129,23 +153,29 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             error
         });
 
-        logError.error('🔥 had an error fetching issues');
+        error = message
 
+        logError.error('🔥 had an error fetching issues');
+    } finally {
         return json({
             owner,
             repo,
             openCount,
             closedCount,
-            data: null,
-            searchData: null,
-            error: message
+            data,
+            searchData,
+            startCursor,
+            endCursor,
+            hasNextPage,
+            hasPreviousPage,
+            error
         });
     }
 }
 
 export default function Index() {
 
-    const { data, searchData, error, repo, owner, openCount, closedCount } = useLoaderData<typeof loader>();
+    const { data, searchData, error, repo, owner, openCount, closedCount, startCursor, endCursor, hasNextPage, hasPreviousPage } = useLoaderData<typeof loader>();
 
     const [issues, setIssues] = useState(data?.issues?.nodes ?? []);
 
@@ -155,19 +185,48 @@ export default function Index() {
 
     const state = searchParams.get("state") ?? "open";
 
-    const updateIssueState = useCallback((s: IssueState) => {
-        searchParams.set("state", s);
-        setSearchParams(searchParams, {
-            preventScrollReset: true,
-        });
-    }, [searchParams]);
-
-    const [funnyPhrase, setFunnyPhrase] = useState(phrases[Math.floor((Math.random() * phrases.length))]);
+    const [funnyPhrase, setFunnyPhrase] = useState(randomPhrase());
     const debouncedFunnyPhrase = useDebounceCallback(setFunnyPhrase, 1000);
-
 
     const [searchInput, setSearchInput] = useState(searchParams.get("q") ?? "");
     const debouncedSearchInput = useDebounceCallback(setSearchInput, 80);
+
+    const updateCursor = useCallback((cursor: string | undefined, direction: string | undefined) => {
+
+        if (direction) {
+            searchParams.set("direction", direction);
+        } else {
+            searchParams.delete("direction");
+        }
+
+        if (cursor) {
+            searchParams.set("cursor", cursor);
+        } else {
+            searchParams.delete("cursor");
+        }
+
+        setSearchParams(searchParams, {
+            preventScrollReset: false,
+        });
+    }, [searchParams]);
+
+    const goPrevious = useCallback(() =>
+        updateCursor(startCursor, "prev"),
+        [updateCursor, startCursor]);
+
+    const goNext = useCallback(() =>
+        updateCursor(endCursor, "forward"),
+        [updateCursor, endCursor]);
+
+    const updateIssueState = useCallback((s: IssueState) => {
+        searchParams.delete("cursor");
+        searchParams.delete("direction");
+        searchParams.set("state", s);
+
+        setSearchParams(searchParams, {
+            preventScrollReset: false,
+        });
+    }, [searchParams]);
 
     useEffect(() => {
         if (searchInput.length > 0) {
@@ -176,7 +235,7 @@ export default function Index() {
             searchParams.delete("q");
         }
 
-        debouncedFunnyPhrase(phrases[Math.floor((Math.random() * phrases.length))]);
+        debouncedFunnyPhrase(randomPhrase());
 
         setSearchParams(searchParams, {
             preventScrollReset: true,
@@ -196,10 +255,10 @@ export default function Index() {
         }
     }, [searchData]);
 
-    const blur = navigation.state == "loading" && searchInput.length > 0;
+    const blur = navigation.state == "loading";
 
-    const localizedOpenCount = (openCount ?? "0").toLocaleString('en-US')
-    const localizedClosedCount = (closedCount ?? "0").toLocaleString('en-US')
+    const localizedOpenCount = (openCount ?? "0").toLocaleString();
+    const localizedClosedCount = (closedCount ?? "0").toLocaleString();
 
     return (
         <>
@@ -254,7 +313,15 @@ export default function Index() {
                                     </>
                             }
                         </Flex> :
-                        issues.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} blur={blur} />)}
+                        <>
+                            {issues.map((e) => <IssueCard key={`issue-${e.id}`} issue={e} blur={blur} />)}
+                            {<Flex className="rw-list-footer" padding="2" direction="column" align="center">
+                                <Flex direction="row" gap="2">
+                                    <Button disabled={!hasPreviousPage} onClick={goPrevious}><ChevronLeftIcon />Previous</Button>
+                                    <Button disabled={!hasNextPage} onClick={goNext}>Next <ChevronRightIcon /></Button>
+                                </Flex>
+                            </Flex>}
+                        </>}
                 </List>
             </CenteredContent>
         </>

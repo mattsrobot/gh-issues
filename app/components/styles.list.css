@@ -5,6 +5,7 @@
     border: 0.5px solid var(--rw-color-outline);
     overflow: hidden;
     border-radius: 0px;
+    margin-bottom: 24px;
 }
 
 @media (min-width: 800px) {
@@ -13,12 +14,12 @@
     }
 }
 
-.rw-list:not(.rw-list-blur) > :not(.rw-list-header, .rw-no-results) {
+.rw-list:not(.rw-list-blur) > :not(.rw-list-header, .rw-no-results, .rw-list-footer) {
     cursor: pointer;
 }
 
 @media (hover: hover) {
-    .rw-list:not(.rw-list-blur) > :not(.rw-list-header, .rw-no-results):hover {
+    .rw-list:not(.rw-list-blur) > :not(.rw-list-header, .rw-no-results, .rw-list-footer):hover {
         background-color: var(--rw-raised-1-color);
     }
 }
