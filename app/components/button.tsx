@@ -18,9 +18,7 @@ const defaultProps = {
     disabled: false,
 };
 
-function Button(props: ButtonProps) {
-    const { onClick, children, size, variant, muted, disabled, className } = props;
-
+function Button({ onClick, children, size, variant, muted, disabled, className }: ButtonProps) {
     let styles = `rw-reset rw-button rw-size-${size} rw-button-${variant}`;
 
     if (muted) {

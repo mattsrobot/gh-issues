@@ -23,8 +23,7 @@ const defaultProps = {
     fullHeight: false,
 };
 
-function Flex(props: FlexProps) {
-    const { direction, className, gap, align, padding, auto, shrink, fullHeight, children } = props;
+function Flex({ direction, className, gap, align, padding, auto, shrink, fullHeight, children }: FlexProps) {
     let styles = `rw-flex rw-flex-${direction} rw-flex-gap-${gap} rw-flex-align-${align} rw-flex-padding-${padding}`;
 
     if (auto) {

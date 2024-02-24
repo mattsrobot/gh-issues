@@ -11,8 +11,7 @@ const defaultProps = {
     blur: false
 };
 
-function List(props: ListProps) {
-    const { children, className, blur } = props;
+function List({ children, className, blur }: ListProps) {
     let styles = "rw-list";
 
     if (blur) {

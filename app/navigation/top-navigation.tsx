@@ -9,8 +9,7 @@ const defaultProps = {
     className: "",
 };
 
-function TopNavigation(props: TopNavigationProps) {
-    const { children, className } = props;
+function TopNavigation({ children, className }: TopNavigationProps) {
     const styles = `rw-top-navigation ${className}`;
     return (
         <header className={styles}>

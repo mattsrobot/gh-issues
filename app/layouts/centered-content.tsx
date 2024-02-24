@@ -9,8 +9,7 @@ const defaultProps = {
     className: "",
 };
 
-function CenteredContent(props: CenteredContentProps) {
-    const { children, className } = props;
+function CenteredContent({ children, className }: CenteredContentProps) {
     return (
         <div className={`rw-centered-content ${className}`}>
             {children}

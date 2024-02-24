@@ -9,8 +9,7 @@ const defaultProps = {
     className: "",
 };
 
-function ListHeader(props: ListHeaderProps) {
-    const { children, className } = props;
+function ListHeader({ children, className }: ListHeaderProps) {
     return (
         <div className={`rw-list-header ${className}`}>
             {children}

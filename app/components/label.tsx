@@ -12,8 +12,7 @@ const defaultProps = {
     size: "1",
 };
 
-function Label(props: LabelProps) {
-    const { children, size, style, className } = props;
+function Label({ children, size, style, className }: LabelProps) {
     const styles = `rw-label rw-size-${size} ${className}`;
     return (
         <span style={style} className={styles}>

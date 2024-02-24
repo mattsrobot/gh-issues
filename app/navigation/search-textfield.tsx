@@ -17,8 +17,7 @@ const defaultProps = {
     onChange: (_: string) => { },
 };
 
-function SearchTextField(props: SearchTextFieldProps) {
-    const { className, placeholder, onChange, defaultValue } = props;
+function SearchTextField({ className, placeholder, onChange, defaultValue }: SearchTextFieldProps) {
     const styles = `rw-reset rw-search-textfield`;
     return (
         <div className={`rw-search-textfield-container ${className}`}>

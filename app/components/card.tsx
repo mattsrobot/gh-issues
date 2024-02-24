@@ -13,8 +13,7 @@ const defaultProps = {
     variant: "default",
 };
 
-function Card(props: CardProps) {
-    const { children, size, variant, className } = props;
+function Card({ children, size, variant, className }: CardProps) {
     const styles = `rw-card rw-size-${size} rw-card-${variant} ${className}`;
     return (
         <section className={styles}>

@@ -20,9 +20,7 @@ const defaultProps = {
     blur: false,
 };
 
-export default function IssueCard(props: IssueCardProps) {
-    const { issue, blur } = props;
-
+export default function IssueCard({ issue, blur }: IssueCardProps) {
     return (
         <Flex direction="row" gap="4" padding="1" align="start">
             <Flex align="start" gap="2" auto>
