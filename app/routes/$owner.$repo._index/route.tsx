@@ -130,12 +130,12 @@ export default function Index() {
     }, [data]);
 
     useEffect(() => {
-        sendJsonMessage({ "type": "subscribe", "topic": `repo-${owner}-${repo}` });
+        sendJsonMessage({ "type": "subscribe", "topic": `repo-${repo}-${owner}` });
     }, [repo, owner]);
 
     useEffect(() => {
         const msg: any = lastJsonMessage;
-        if (msg?.topic == `repo-${owner}-${repo}`) {
+        if (msg?.topic == `repo-${repo}-${owner}`) {
             searchParams.set("u", msg?.message);
             setSearchParams(searchParams, {
                 preventScrollReset: true,
