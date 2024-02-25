@@ -61,10 +61,10 @@ export type IssuesResponse = {
 export type Repository = {
     id: string
     openIssues: {
-        totalCount: string;
+        totalCount: number;
     }
     closedIssues: {
-        totalCount: string;
+        totalCount: number;
     }
     issues?: IssueConnection;
 }
@@ -105,7 +105,7 @@ export type Issue = {
 
 export type LabelConnection = {
     totalCount: number
-    nodes: [Label]
+    nodes: Label[]
 }
 
 export type Label = {
@@ -116,7 +116,7 @@ export type Label = {
 
 export type ActorConnection = {
     totalCount: number
-    nodes: [Actor]
+    nodes: Actor[]
 }
 
 export type Actor = {

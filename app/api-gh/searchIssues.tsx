@@ -55,11 +55,11 @@ query search($searchQuery: String!, $alternativeSearchQuery: String!, $first: In
 
 export type SearchResponse = {
     search?: {
-        issueCount: string
+        issueCount: number
         nodes: [Issue]
         pageInfo: PageInfo
     }
     alternativeCount?: {
-        issueCount: string
+        issueCount: number
     }
 }

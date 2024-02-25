@@ -2,7 +2,7 @@ import './styles.issue-card.css';
 
 import { Flex, Text, Label } from "~/components";
 import { IssueOpenedIcon, IssueClosedIcon, CircleSlashIcon, GitPullRequestIcon } from '@primer/octicons-react';
-import { Issue } from "~/api/fetchIssues";
+import { Issue } from "~/api-gh/fetchIssues";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { CommentIcon } from '@primer/octicons-react';
