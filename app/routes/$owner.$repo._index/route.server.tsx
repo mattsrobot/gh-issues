@@ -33,8 +33,14 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         if (repo == "gh-issues" && owner == "mattsrobot") {
             // Call our internal REST API for sync'd GitHub Repos
 
+            let url = `${process.env.PRIVATE_API_URL!}/internal/repo/${owner}/${repo}/issues?state=${state}`;
+
+            if (query && query.length > 0) {
+                url += `&q=${query}`;
+            }
+
             const response = await internalApiRequest<InternalIssuesResponse>({
-                url: `${process.env.PRIVATE_API_URL!}/internal/repo/${owner}/${repo}/issues?state=${state}`
+                url: url,
             });
 
             openCount = response.data?.open_count ?? 0;
