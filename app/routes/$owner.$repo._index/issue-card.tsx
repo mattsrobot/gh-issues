@@ -20,7 +20,8 @@ const defaultProps = {
     blur: false,
 };
 
-export default function IssueCard({ issue, blur }: IssueCardProps) {
+export default function IssueCard({ issue: potentiallyFormatted, blur }: IssueCardProps) {
+    const issue = potentiallyFormatted.__formatted ?? potentiallyFormatted;
     return (
         <Flex direction="row" gap="4" padding="1" align="start">
             <Flex align="start" gap="2" auto>
@@ -29,7 +30,7 @@ export default function IssueCard({ issue, blur }: IssueCardProps) {
                     <IssueOpenedIcon className={blur ? "rw-color-muted" : "rw-color-open"} size={15} />}
                 <Flex direction="column" gap="1">
                     <Text size="2" weight="bold" blur={blur}>
-                        <span className="rw-extra-line-space" dangerouslySetInnerHTML={{ __html: issue.titleHTML }} />
+                        <span className="rw-extra-line-space rw-highlight" dangerouslySetInnerHTML={{ __html: issue.titleHTML }} />
                         {issue.labels.nodes.map((e) => <Label key={`${issue.id}-${e.id}`} style={{
                             marginLeft: 8,
                             border: `0.5px solid #${e.color}`,
@@ -42,7 +43,7 @@ export default function IssueCard({ issue, blur }: IssueCardProps) {
                             #{issue.number} by <span className="rw-accent-hover">{issue.author?.login}</span> was closed {dayjs(issue.closedAt).fromNow()}
                         </Text> :
                         <Text size="1" weight="regular" color="muted" blur={blur}>
-                            #{issue.number} opened {dayjs(issue.createdAt).fromNow()} by <span className="rw-accent-hover">{issue.author?.login}</span>
+                            #{issue.number} opened {dayjs(issue.createdAt).fromNow()} by <span className="rw-accent-hover rw-highlight">{issue.author?.login}</span>
                         </Text>}
                 </Flex>
             </Flex>

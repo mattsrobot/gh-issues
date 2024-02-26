@@ -20,3 +20,8 @@ body {
     border-radius: 10px;
     overflow: hidden;
 }
+
+.rw-highlight > em {
+    background-color: var(--rw-color-attention);
+    font-style: unset;
+}
