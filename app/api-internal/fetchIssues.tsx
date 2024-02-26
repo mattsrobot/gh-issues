@@ -13,6 +13,7 @@ export type InternalActor = {
 }
 
 export type InternalIssue = {
+    _formatted?: InternalIssue;
     id: string
     created_at: string
     title: string
@@ -30,7 +31,7 @@ export type InternalIssue = {
 export function toGitHub(e: InternalIssue): Issue {
     return {
         id: e.id,
-        titleHTML: e.title,
+        titleHTML: e._formatted?.title ?? e.title,
         createdAt: e.created_at,
         number: e.issue_number,
         closed: e.closed,
@@ -38,7 +39,7 @@ export function toGitHub(e: InternalIssue): Issue {
             totalCount: e.comments_count,
         },
         author: {
-            login: e.author.login,
+            login: e._formatted?.author?.login ?? e.author.login,
             avatarUrl: e.author.avatar_url,
         },
         labels: {

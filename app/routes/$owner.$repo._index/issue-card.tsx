@@ -20,8 +20,7 @@ const defaultProps = {
     blur: false,
 };
 
-export default function IssueCard({ issue: potentiallyFormatted, blur }: IssueCardProps) {
-    const issue = potentiallyFormatted._formatted ?? potentiallyFormatted;
+export default function IssueCard({ issue, blur }: IssueCardProps) {
     return (
         <Flex direction="row" gap="4" padding="1" align="start">
             <Flex align="start" gap="2" auto>
