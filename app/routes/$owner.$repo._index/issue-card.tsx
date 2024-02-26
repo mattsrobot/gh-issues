@@ -42,7 +42,7 @@ export default function IssueCard({ issue, blur }: IssueCardProps) {
                             #{issue.number} by <span className="rw-accent-hover">{issue.author?.login}</span> was closed {dayjs(issue.closedAt).fromNow()}
                         </Text> :
                         <Text size="1" weight="regular" color="muted" blur={blur}>
-                            #{issue.number} opened {dayjs(issue.createdAt).fromNow()} by <span className="rw-accent-hover rw-highlight">{issue.author?.login}</span>
+                            #{issue.number} opened {dayjs(issue.createdAt).fromNow()} by <span className="rw-accent-hover rw-highlight" dangerouslySetInnerHTML={{ __html: issue.author?.login }} />
                         </Text>}
                 </Flex>
             </Flex>
