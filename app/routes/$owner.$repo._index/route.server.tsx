@@ -46,6 +46,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             openCount = response.data?.open_count ?? 0;
             closedCount = response.data?.closed_count ?? 0;
 
+            logRequest.info(response.data?.issues);
+
             issues = (response.data?.issues ?? []).map((e) => toGitHub(e));
         } else {
             // Call the GitHub GraphQL API for repos not sync'd
